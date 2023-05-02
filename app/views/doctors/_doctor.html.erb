@@ -1,0 +1,22 @@
+<div id="<%= dom_id doctor %>">
+  <div class="doctor-card">
+    <div class="row align-items-center">
+      <div class="col-3">
+        <%= image_tag doctor.image_url, size: 70, class: 'rounded' %>
+      </div>
+      <div class="col w-100">
+        <strong class="d-block"><%= doctor.name %></strong>
+        <address class="d-block text-secondary m-0"><%= doctor.address %></address>
+      </div>
+    </div>
+    <div class="row mt-2 align-items-center">
+      <div class="col-7">
+        <small class="text-success">Next Available - </small>
+        <small>3:00 PM</small>
+      </div>
+      <div class="col-5">
+        <%= link_to 'Book Visit', doctors_path ,class: 'btn btn-primary'%>
+      </div>
+    </div>
+  </div>
+</div>

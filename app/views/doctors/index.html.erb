@@ -1,0 +1,16 @@
+<p style="color: green"><%= notice %></p>
+
+
+<div id="doctors" class="m-auto">
+  <h3 class='mt-4 ms-3'><%= image_tag 'stethoscope.svg', class: 'me-2' %>My Doctors</h3>
+  <%# @doctors.each do |doctor| %>
+  <%#= render doctor %>
+  <%#= link_to "Show this doctor", doctor %>
+  <%# end %>
+  <div class="d-flex flex-wrap">
+    <%= render partial: "doctor", collection: @doctors %>
+
+  </div>
+</div>
+
+<%= link_to "New doctor", new_doctor_path %>

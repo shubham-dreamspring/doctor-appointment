@@ -11,7 +11,7 @@
       <%= form.hidden_field :doctor_id, value: params[:doctor_id] %>
       <div class="text-center" id="book-appointment-btn-div">
         <span>Due to high demand, it is difficult to reschedule appointments. Please book your slot carefully!</span>
-        <button data-appointment-target="toggle-btn" data-action="click->appointment#page_switch" type="button" class="btn btn-primary w-100">Book
+        <button data-appointment-target="bookButton" data-action="click->appointment#page_switch" type="button" class="btn btn-secondary w-100" disabled>Book
           Appointment
         </button>
       </div>

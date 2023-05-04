@@ -1,0 +1,37 @@
+<div id="date-picker-carousel" class="carousel slide mb-5">
+  <div class="carousel-inner px-3">
+    <div class="nav nav-underline" id="nav-tab" role="tablist">
+      <% @time_slots.each_slice(3) do |three_time_slots| %>
+        <div class="carousel-item <%= three_time_slots.to_a[0][0].day == Date.today.day ? "active" : "" %>">
+          <div class="row">
+            <% three_time_slots.each do |t, _| %>
+              <a
+                class="col p-0 nav-link text-primary <%= t.today? ? 'active' : '' %>"
+                id="nav-<%= t.strftime('%m%d%Y') %>-tab"
+                data-bs-toggle="tab"
+                data-bs-target="<%= "#nav-#{t.strftime('%m%d%Y')}" %>"
+                type="button"
+                role="tab"
+                aria-controls="<%= "nav-#{t.strftime('%m%d%Y')}" %>"
+                aria-selected="<%= t.today? %>">
+                <div class="d-flex flex-column justify-content-center align-items-center">
+                  <p class="line-1 m-0"><%= "#{t.day == Date.today.day ? 'Today, ' : '' }#{t.day == Date.today.day + 1 ? 'Tomorrow, ' : ''}#{t.strftime('%a')}, #{t.day.ordinalize}" %></p>
+                  <p class="line-2 mb-2"><%= "#{t.strftime('%b')}" %></p>
+                </div>
+              </a>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#date-picker-carousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#date-picker-carousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden text-secondary">Next</span>
+  </button>
+</div>

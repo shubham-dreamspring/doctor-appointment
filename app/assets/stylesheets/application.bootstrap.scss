@@ -91,10 +91,17 @@ nav {
 }
 
 #new-appointment-date-aside {
-  max-width: 798px;
-  padding-top: 3.68rem;
+  .page1 {
+    max-width: 798px;
+    padding-top: 3.68rem;
+  }
+  .page2 {
+    max-width: 328px
+  }
+  .page2-wrapper {
+    height: 90vh;
+  }
 }
-
 .carousel-control-prev, .carousel-control-next {
   width: 2vw;
 }

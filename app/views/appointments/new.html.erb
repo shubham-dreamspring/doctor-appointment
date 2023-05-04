@@ -1,98 +1,21 @@
-<%#= render "form", appointment: @appointment %>
-<aside class="m-auto" id="new-appointment-date-aside">
+<aside data-controller='appointment' id="new-appointment-date-aside">
   <%= form_with model: @appointment do |form| %>
-    <%= image_tag 'calender_outline.svg', class: 'me-2 mb-1' %>
-    Select a date
-    <br>
+    <div data-appointment-target="page1" class="page1 m-auto">
+      <%= image_tag 'calender_outline.svg', class: 'me-2 mb-1' %>
+      Select a date
+      <br>
 
-    <div id="date-picker-carousel" class="carousel slide mb-5">
-      <div class="carousel-inner px-3">
-        <div class="nav nav-underline" id="nav-tab" role="tablist">
-          <% @time_slots.each_slice(3) do |three_time_slots| %>
-            <div class="carousel-item <%= three_time_slots.to_a[0][0].day == Date.today.day ? "active" : "" %>">
-              <div class="row">
-                <% three_time_slots.each do |t, _| %>
-                  <a
-                    class="col p-0 nav-link text-primary <%= t.today? ? 'active' : '' %>"
-                    id="nav-<%= t.strftime('%m%d%Y') %>-tab"
-                    data-bs-toggle="tab"
-                    data-bs-target="<%= "#nav-#{t.strftime('%m%d%Y')}" %>"
-                    type="button"
-                    role="tab"
-                    aria-controls="<%= "nav-#{t.strftime('%m%d%Y')}" %>"
-                    aria-selected="<%= t.today? %>">
-                    <div class="d-flex flex-column justify-content-center align-items-center">
-                      <p class="line-1 m-0"><%= "#{t.day == Date.today.day ? 'Today, ' : '' }#{t.day == Date.today.day + 1 ? 'Tomorrow, ' : ''}#{t.strftime('%a')}, #{t.day.ordinalize}" %></p>
-                      <p class="line-2 mb-2"><%= "#{t.strftime('%b')}" %></p>
-                    </div>
-                  </a>
-                <% end %>
-              </div>
-            </div>
-          <% end %>
-        </div>
+      <%= render partial: 'date_picker', locals: { form: form } %>
 
+      <%= render partial: 'time_slots', locals: { form: form } %>
+      <%= form.hidden_field :doctor_id, value: params[:doctor_id] %>
+      <div class="text-center" id="book-appointment-btn-div">
+        <span>Due to high demand, it is difficult to reschedule appointments. Please book your slot carefully!</span>
+        <button data-appointment-target="toggle-btn" data-action="click->appointment#page_switch" type="button" class="btn btn-primary w-100">Book
+          Appointment
+        </button>
       </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#date-picker-carousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#date-picker-carousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden text-secondary">Next</span>
-      </button>
     </div>
-
-    <div class="tab-content" id="nav-tabContent">
-      <% @time_slots.each do |t, value| %>
-        <div class="tab-pane fade <%= t.today? ? "show active" : "" %>"
-             id="nav-<%= t.strftime('%m%d%Y') %>"
-             role="tabpanel"
-             aria-labelledby="nav-<%= t.strftime('%m%d%Y') %>-tab"
-             tabindex="0">
-          <div class="mb-3">
-            <%= image_tag 'clock.svg', class: 'me-3' %>
-            <span class="fw-semibold">
-          Select a time for<span class="text-primary">
-              <%= "#{t.strftime('%A, ')}#{t.day.ordinalize}#{t.strftime(', %B')}" %>
-            </span>
-        </span>
-          </div>
-          <div class="grid text-center">
-
-            <% value.each do |time| %>
-              <%= form.radio_button :start_timestamp, time.to_i, class: 'btn-check' %>
-              <%= form.label "start_timestamp_#{time.to_i}", class: "g-col-4 btn btn-outline-primary" do %>
-                <%= time.strftime('%H : %M %p') %>
-              <% end %>
-            <% end %>
-          </div>
-
-        </div>
-      <% end %>
-    </div>
-    <%= form.hidden_field :doctor_id, value: params[:doctor_id] %>
-    <div class="text-center" id="book-appointment-btn-div">
-      <span>Due to high demand, it is difficult to reschedule appointments. Please book your slot carefully!</span>
-      <button type="button" class="btn btn-primary w-100">Book Appointment</button>
-    </div>
-    <aside style="max-width: 328px">
-      <h4 class="text-center">Add Details 🧑🏻</h4>
-      <%= form.label :user_name, "Name", class: "form-label" %>
-      <%= form.text_field :user_name, class: "form-control mb-4" %>
-      <%= form.label :user_email, "Email", class: "form-label" %>
-      <%= form.text_field :user_email, class: "form-control mb-4" %>
-      <label class="form-label mb-3">Select Currency</label>
-      <div class="grid mb-4">
-        <%= form.radio_button :currency, 'EUR', class: 'btn-check' %>
-        <%= form.label "currency_eur", "EUR", class: "g-col-4 btn btn-outline-primary" %>
-        <%= form.radio_button :currency, 'INR', class: 'btn-check' %>
-        <%= form.label "currency_inr", "INR", class: "g-col-4 btn btn-outline-primary" %>
-        <%= form.radio_button :currency, 'USD', class: 'btn-check' %>
-        <%= form.label "currency_usd", "USD", class: "g-col-4 btn btn-outline-primary" %>
-      </div>
-      <%= form.hidden_field :amount, value: @doctor_fees %>
-      <%= form.submit "Pay #{@doctor_fees}INR", class: "btn btn-primary w-100" %>
-    </aside>
+    <%= render partial: 'user_form', locals: { form: form } %>
   <% end %>
 </aside>

@@ -1,0 +1,20 @@
+<div class="page2-wrapper d-none justify-content-center align-items-center" data-appointment-target="page2">
+<aside class="page2" >
+  <h4 class="text-center">Add Details 🧑🏻</h4>
+  <%= form.label :user_name, "Name", class: "form-label" %>
+  <%= form.text_field :user_name, class: "form-control mb-4" %>
+  <%= form.label :user_email, "Email", class: "form-label" %>
+  <%= form.text_field :user_email, class: "form-control mb-4" %>
+  <label class="form-label mb-3">Select Currency</label>
+  <div class="grid mb-4">
+    <%= form.radio_button :currency, 'EUR', class: 'btn-check' %>
+    <%= form.label "currency_eur", "EUR", class: "g-col-4 btn btn-outline-primary" %>
+    <%= form.radio_button :currency, 'INR', class: 'btn-check' %>
+    <%= form.label "currency_inr", "INR", class: "g-col-4 btn btn-outline-primary" %>
+    <%= form.radio_button :currency, 'USD', class: 'btn-check' %>
+    <%= form.label "currency_usd", "USD", class: "g-col-4 btn btn-outline-primary" %>
+  </div>
+  <%= form.hidden_field :amount, value: @doctor_fees %>
+  <%= form.submit "Pay #{@doctor_fees}INR", class: "btn btn-primary w-100" %>
+</aside>
+</div>

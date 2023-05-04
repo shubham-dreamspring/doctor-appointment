@@ -1,0 +1,28 @@
+<div class="tab-content" id="nav-tabContent">
+  <% @time_slots.each do |t, value| %>
+    <div class="tab-pane fade <%= t.today? ? "show active" : "" %>"
+         id="nav-<%= t.strftime('%m%d%Y') %>"
+         role="tabpanel"
+         aria-labelledby="nav-<%= t.strftime('%m%d%Y') %>-tab"
+         tabindex="0">
+      <div class="mb-3">
+        <%= image_tag 'clock.svg', class: 'me-3' %>
+        <span class="fw-semibold">
+          Select a time for<span class="text-primary">
+              <%= "#{t.strftime('%A, ')}#{t.day.ordinalize}#{t.strftime(', %B')}" %>
+            </span>
+        </span>
+      </div>
+      <div class="grid text-center">
+
+        <% value.each do |time| %>
+          <%= form.radio_button :start_timestamp, time.to_i, class: 'btn-check' %>
+          <%= form.label "start_timestamp_#{time.to_i}", class: "g-col-4 btn btn-outline-primary" do %>
+            <%= time.strftime('%H : %M %p') %>
+          <% end %>
+        <% end %>
+      </div>
+
+    </div>
+  <% end %>
+</div>

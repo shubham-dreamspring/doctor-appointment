@@ -1,9 +1,77 @@
-<h1>New appointment</h1>
+<%#= render "form", appointment: @appointment %>
+<aside class="m-auto" id="new-appointment-date-aside">
+  <%= image_tag 'calender_outline.svg', class: 'me-2 mb-1' %>
+  Select a date
+  <br>
 
-<%= render "form", appointment: @appointment %>
+  <div id="date-picker-carousel" class="carousel slide mb-5">
+    <div class="carousel-inner px-3">
+      <div class="nav nav-underline" id="nav-tab" role="tablist">
+        <% @time_slots.each_slice(3) do |three_time_slots| %>
+          <div class="carousel-item <%= three_time_slots.to_a[0][0].day == Date.today.day ? "active" : "" %>">
+            <div class="row">
+              <% three_time_slots.each do |t, _| %>
+                <a
+                  class="col p-0 nav-link text-primary <%= t.today? ? 'active' : '' %>"
+                  id="nav-<%= t.strftime('%m%d%Y') %>-tab"
+                  data-bs-toggle="tab"
+                  data-bs-target="<%= "#nav-#{t.strftime('%m%d%Y')}" %>"
+                  type="button"
+                  role="tab"
+                  aria-controls="<%= "nav-#{t.strftime('%m%d%Y')}" %>"
+                  aria-selected="<%= t.today? %>">
+                  <div class="d-flex flex-column justify-content-center align-items-center">
+                    <p class="line-1 m-0"><%= "#{t.day == Date.today.day ? 'Today, ' : '' }#{t.day == Date.today.day + 1 ? 'Tomorrow, ' : ''}#{t.strftime('%a')}, #{t.day.ordinalize}" %></p>
+                    <p class="line-2 mb-2"><%= "#{t.strftime('%b')}" %></p>
+                  </div>
+                </a>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
 
-<br>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#date-picker-carousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#date-picker-carousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon text-secondary" style="color: #1c4d25" aria-hidden="true"></span>
+      <span class="visually-hidden text-secondary">Next</span>
+    </button>
+  </div>
 
-<div>
-  <%= link_to "Back to appointments", appointments_path %>
-</div>
+  <div class="tab-content" id="nav-tabContent">
+    <% @time_slots.each do |t, value| %>
+      <div class="tab-pane fade <%= t.today? ? "show active" : "" %>" id="nav-<%= t.strftime('%m%d%Y') %>" role="tabpanel" aria-labelledby="nav-<%= t.strftime('%m%d%Y') %>-tab" tabindex="0">
+        <div class="mb-3">
+          <%= image_tag 'clock.svg', class: 'me-3' %>
+          <span class="fw-semibold">
+          Select a time for <span class="text-primary"><%= "#{t.strftime('%A, ')}#{t.day.ordinalize}#{t.strftime(', %B')}" %></span>
+        </span>
+        </div>
+        <div class="grid text-center">
+
+          <% value.each do |time| %>
+            <div class="g-col-4 btn btn-outline-primary">
+
+              <%= time.strftime('%H : %M %p') %>
+            </div>
+          <% end %>
+          <% value.each do |time| %>
+            <div class="g-col-4 btn btn-outline-primary">
+
+              <%= time.strftime('%H : %M %p') %>
+            </div>
+          <% end %>
+        </div>
+
+      </div>
+    <% end %>
+  </div>
+  <div class="text-center" id="book-appointment-btn-div">
+    <span>Due to high demand, it is difficult to reschedule appointments. Please book your slot carefully!</span>
+    <button type="button" class="btn btn-primary w-100">Book Appointment</button>
+  </div>
+</aside>

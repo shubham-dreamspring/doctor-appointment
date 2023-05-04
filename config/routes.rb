@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  root 'doctors#index', as: 'doctors_index'
   resources :appointments
   resources :users
   resources :doctors

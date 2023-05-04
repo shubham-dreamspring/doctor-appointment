@@ -15,7 +15,7 @@
         <small>3:00 PM</small>
       </div>
       <div class="col-5">
-        <%= link_to 'Book Visit', doctors_path ,class: 'btn btn-primary'%>
+        <%= link_to 'Book Visit', new_appointment_url(:doctor_id => doctor.id), class: 'btn btn-primary' %>
       </div>
     </div>
   </div>

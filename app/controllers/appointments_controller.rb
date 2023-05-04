@@ -15,6 +15,7 @@ class AppointmentsController < ApplicationController
     @appointment = Appointment.new(:doctor_id => params[:doctor_id])
     doctor = Doctor.find(params[:doctor_id])
     @time_slots = {}
+    @doctor_fees = doctor.fees
     gen_time_slots = general_day_time_slots doctor
     date = Date.today
     9.times do
@@ -32,6 +33,11 @@ class AppointmentsController < ApplicationController
 
   # POST /appointments or /appointments.json
   def create
+    users = User.where(email: user_params[:user_email])
+    @user = users.empty? ? User.create({ name: user_params[:user_name], email: user_params[:user_email] }) : users[0]
+    params['appointment']['start_timestamp'] = Time.at(Integer(params['appointment']['start_timestamp'].to_s))
+    params['appointment']['end_timestamp'] = params['appointment']['start_timestamp'] + 1.hour
+    params['appointment']['user_id'] = @user.id
     @appointment = Appointment.new(appointment_params)
 
     respond_to do |format|
@@ -77,13 +83,17 @@ class AppointmentsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def appointment_params
-    params.require(:appointment).permit(:doctor_id, :user_id, :start_timestamp, :end_timestamp, :currency, :amount)
+    params.require(:appointment).permit(:doctor_id, :user_id, :end_timestamp, :start_timestamp, :currency, :amount)
+  end
+
+  def user_params
+    params.require(:appointment).permit(:user_name, :user_email)
   end
 
   def general_day_time_slots(doctor)
     start_time = doctor.start_time
     end_time = doctor.end_time
-    break_start_time = Time.parse('2000-01-01 ' + doctor.busy_slots[0].split[0] + ' ' + doctor.busy_slots[0].split[1] + " UTC +00:00")
+    break_start_time = Time.parse('2000-01-01 ' + doctor.busy_slots[0].split[0] + ' ' + doctor.busy_slots[0].split[1] + " UTC")
     break_end_time = break_start_time + doctor.busy_slots[0].split[2].to_f.hour
     general_time_slots = []
 

@@ -42,6 +42,11 @@ class AppointmentsController < ApplicationController
 
     respond_to do |format|
       if @appointment.save
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace(:new_appointment,
+                                                    partial: 'success',
+                                                    locals: { appointment: @appointment })
+        end
         format.html { redirect_to appointment_url(@appointment), notice: "Appointment was successfully created." }
         format.json { render :show, status: :created, location: @appointment }
       else

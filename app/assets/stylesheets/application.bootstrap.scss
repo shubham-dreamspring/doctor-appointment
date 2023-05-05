@@ -90,33 +90,74 @@ nav {
   margin: 0.75rem 1.5rem;
 }
 
-#new-appointment-date-aside {
+#new_appointment {
   .page1 {
     max-width: 798px;
     padding-top: 3.68rem;
   }
+
   .page2 {
     max-width: 328px
   }
+
   .page2-wrapper {
     height: 90vh;
   }
 }
+
 .carousel-control-prev, .carousel-control-next {
   width: 2vw;
 }
 
 #book-appointment-btn-div {
   margin-top: 5rem;
+
   span {
     font-size: 14px;
     margin-bottom: 1rem;
     color: #1C1C1C;
     display: block;
   }
+
   button {
     font-weight: 700;
     font-size: 18px;
+  }
+}
+
+.success-page-wrapper {
+  height: 90vh;
+}
+
+#success-appointment-page {
+  box-shadow: 0 4px 6px rgba(65, 52, 146, 0.06), 0 4px 12px rgba(65, 52, 146, 0.12);
+  border-radius: 16px;
+  max-width: 568px;
+  width: 100%;
+}
+
+#count-down {
+  color: #443EFF;
+
+  span {
+    background-color: #F5F5F5;
+    border-radius: 8px;
+    margin-left: 3px;
+    margin-right: 3px;
+    font-weight: 700;
+    padding: 4px;
+  }
+
+  small {
+    margin-top: 4px;
+    color: #686868;
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+
+  strong {
+    font-size: 20px;
   }
 }
 

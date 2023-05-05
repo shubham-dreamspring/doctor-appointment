@@ -1,4 +1,4 @@
-<aside data-controller='appointment' id="new-appointment-date-aside">
+<aside data-controller='appointment' id="new_appointment">
   <%= form_with model: @appointment do |form| %>
     <div data-appointment-target="page1" class="page1 m-auto">
       <%= image_tag 'calender_outline.svg', class: 'me-2 mb-1' %>
@@ -19,3 +19,4 @@
     <%= render partial: 'user_form', locals: { form: form } %>
   <% end %>
 </aside>
+

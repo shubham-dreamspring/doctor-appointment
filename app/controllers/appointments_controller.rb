@@ -1,6 +1,7 @@
 class AppointmentsController < ApplicationController
   before_action :set_appointment, only: %i[ show edit update destroy ]
-
+  before_action :set_allowed_currencies, :set_currency_conversion_rate, only: %i[ new create ]
+  include CurrencyConverterHelper
   # GET /appointments or /appointments.json
   def index
     @appointments = Appointment.all
@@ -38,6 +39,8 @@ class AppointmentsController < ApplicationController
     params['appointment']['start_timestamp'] = Time.at(Integer(params['appointment']['start_timestamp'].to_s))
     params['appointment']['end_timestamp'] = params['appointment']['start_timestamp'] + 1.hour
     params['appointment']['user_id'] = @user.id
+    doctor = Doctor.find(params['appointment']['doctor_id'])
+    params['appointment']['amount'] = @currency_conversion_rate[params['appointment']['currency']] * doctor.fees
     @appointment = Appointment.new(appointment_params)
 
     respond_to do |format|
@@ -111,5 +114,24 @@ class AppointmentsController < ApplicationController
       break_end_time = break_end_time + 1.hour
     end
     general_time_slots
+  end
+
+  def set_currency_conversion_rate
+    cached_conversion_rates = Rails.cache.read('conversion_rates')
+
+    if !cached_conversion_rates.nil? && cached_conversion_rates[:timestamp].today?
+      @currency_conversion_rate = cached_conversion_rates[:conversion_rates]
+      return
+    end
+    conversion_rates = {}
+    @allowed_currencies.each do |cur|
+      conversion_rates[cur] = currency_converter(base_amount: 1, target_currency: cur)["new_amount"]
+    end
+    Rails.cache.write('conversion_rates', { conversion_rates: conversion_rates, timestamp: Time.now }, expires_in: 1.days)
+    @currency_conversion_rate = conversion_rates
+  end
+
+  def set_allowed_currencies
+    @allowed_currencies = %w[EUR USD INR]
   end
 end

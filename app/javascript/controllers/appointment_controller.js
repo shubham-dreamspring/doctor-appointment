@@ -2,7 +2,7 @@ import {Controller} from "@hotwired/stimulus"
 
 export default class extends Controller {
 
-    static targets = ['page1', 'page2', 'bookButton']
+    static targets = ['page1', 'page2', 'bookButton', 'payButton']
 
     page_switch() {
         let page1 = this.page1Target
@@ -20,5 +20,9 @@ export default class extends Controller {
         btn.classList.add('btn-primary')
         btn.classList.remove('btn-secondary')
 
+    }
+
+    currencyConverter(event) {
+        this.payButtonTarget.value = `Pay ${event.params.amount} ${event.params.cur}`
     }
 }

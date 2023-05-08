@@ -1,32 +1,33 @@
-<div id="count-down" class="d-flex pb-5">
+<div data-controller="countdown" id="count-down" class="d-flex pb-5">
+  <span class="d-none" data-countdown-target="endDateSpan"><%= end_time %></span>
   <div>
     <div class="d-flex">
-      <span><%= (end_time.day / 10).to_s %></span>
-      <span><%= (end_time.day % 10).to_s %></span>
+      <span data-countdown-target="firstDayDigit"><%= (end_time.day / 10).to_s %></span>
+      <span data-countdown-target="secondDayDigit"><%= (end_time.day % 10).to_s %></span>
     </div>
     <small>Days</small>
   </div>
   <strong>:</strong>
   <div>
     <div class="d-flex">
-      <span>0</span>
-      <span>0</span>
+      <span data-countdown-target="firstHourDigit">0</span>
+      <span data-countdown-target="secondHourDigit">0</span>
     </div>
     <small>Hours</small>
   </div>
   <strong>:</strong>
   <div>
     <div class="d-flex">
-      <span>0</span>
-      <span>0</span>
+      <span data-countdown-target="firstMinDigit">0</span>
+      <span data-countdown-target="secondMinDigit">0</span>
     </div>
     <small>Mins</small>
   </div>
   <strong>:</strong>
   <div>
     <div class="d-flex">
-      <span>0</span>
-      <span>0</span>
+      <span data-countdown-target="firstSecDigit">0</span>
+      <span data-countdown-target="secondSecDigit">0</span>
     </div>
     <small>Secs</small>
   </div>

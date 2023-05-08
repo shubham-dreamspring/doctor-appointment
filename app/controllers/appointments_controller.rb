@@ -16,16 +16,8 @@ class AppointmentsController < ApplicationController
     @appointment = Appointment.new(:doctor_id => params[:doctor_id])
     doctor = Doctor.find(params[:doctor_id])
     @time_slots = {}
+    get_available_time_slots doctor
     @doctor_fees = doctor.fees
-    gen_time_slots = general_day_time_slots doctor
-    date = Date.today
-    9.times do
-      key = date
-      time_slots_for_day = []
-      gen_time_slots.each { |t| time_slots_for_day << Time.new(date.year, date.month, date.day, t.hour, t.min) }
-      @time_slots[key] = time_slots_for_day
-      date = date + 1.day
-    end
   end
 
   # GET /appointments/1/edit
@@ -134,5 +126,28 @@ class AppointmentsController < ApplicationController
 
   def set_allowed_currencies
     @allowed_currencies = %w[EUR USD INR]
+  end
+
+  def get_available_time_slots(doctor)
+    gen_time_slots = general_day_time_slots doctor
+    appointment_booked = Appointment.find_by_sql("SELECT start_timestamp FROM appointments WHERE start_timestamp >= current_timestamp ORDER BY start_timestamp;")
+    appointment_booked_array = []
+    appointment_booked.each { |row| appointment_booked_array << row[:start_timestamp] }
+    date = Date.today
+    8.times do
+      key = date
+      time_slots_for_day = []
+      gen_time_slots.each do |t|
+        time_at_given_slot = Time.new(date.year, date.month, date.day, t.hour, t.min)
+        index_in_booked_appointment = appointment_booked_array.index time_at_given_slot
+        if index_in_booked_appointment
+          appointment_booked_array.delete_at index_in_booked_appointment
+          next
+        end
+        time_slots_for_day << time_at_given_slot if (time_at_given_slot > Time.now)
+      end
+      @time_slots[key] = time_slots_for_day
+      date = date + 1.day
+    end
   end
 end

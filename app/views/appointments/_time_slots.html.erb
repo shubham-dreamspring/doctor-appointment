@@ -14,12 +14,15 @@
         </span>
       </div>
       <div class="grid text-center">
-
-        <% value.each do |time| %>
-          <%= form.radio_button :start_timestamp, time.to_i, class: 'btn-check', data: {action: "input->appointment#toggleBookBtn"} %>
-          <%= form.label "start_timestamp_#{time.to_i}", class: "g-col-4 btn btn-outline-primary" do %>
-            <%= time.strftime('%I : %M %P') %>
+        <% if !value.empty? %>
+          <% value.each do |time| %>
+            <%= form.radio_button :start_timestamp, time.to_i, class: 'btn-check', data: { action: "input->appointment#toggleBookBtn" } %>
+            <%= form.label "start_timestamp_#{time.to_i}", class: "g-col-4 btn btn-outline-primary" do %>
+              <%= time.strftime('%I : %M %P') %>
+            <% end %>
           <% end %>
+        <% else %>
+          <span class="g-col-12 text-secondary"> No available time slot</span>
         <% end %>
       </div>
 

@@ -28,5 +28,7 @@ const counter = (end_date, elems) => {
             clearInterval(x);
         }
     }, 1000);
+
+    return x;
 }
 export default counter;

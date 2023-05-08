@@ -32,9 +32,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_02_102705) do
     t.text "address"
     t.string "image_url"
     t.decimal "fees"
-    t.string "busy_slots", default: ["01:00 PM 1"], array: true
-    t.time "start_time", default: "2000-01-01 12:00:00"
-    t.time "end_time", default: "2000-01-01 16:00:00"
+    t.string "busy_slots", default: ["07:30 1"], array: true
+    t.time "start_time", default: "2000-01-01 06:30:00"
+    t.time "end_time", default: "2000-01-01 10:30:00"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

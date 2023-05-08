@@ -99,10 +99,11 @@ class AppointmentsController < ApplicationController
   end
 
   def general_day_time_slots(doctor)
-    start_time = doctor.start_time
-    end_time = doctor.end_time
-    break_start_time = Time.parse('2000-01-01 ' + doctor.busy_slots[0].split[0] + ' ' + doctor.busy_slots[0].split[1] + " UTC")
-    break_end_time = break_start_time + doctor.busy_slots[0].split[2].to_f.hour
+    start_time = doctor.start_time.in_time_zone('Kolkata')
+    end_time = doctor.end_time.in_time_zone('Kolkata')
+    break_start_time = Time.parse('2000-01-01 ' + doctor.busy_slots[0].split[0] + " UTC")
+    break_start_time = break_start_time.in_time_zone('Kolkata')
+    break_end_time = break_start_time + doctor.busy_slots[0].split[1].to_f.hour
     general_time_slots = []
 
     while break_start_time - start_time >= 3600 do

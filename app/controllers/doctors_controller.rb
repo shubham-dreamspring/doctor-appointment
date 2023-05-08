@@ -21,6 +21,8 @@ class DoctorsController < ApplicationController
 
   # POST /doctors or /doctors.json
   def create
+    params['doctor']['start_time'] = Time.parse(params['doctor']['start_time']).in_time_zone('UTC')
+    params['doctor']['end_time'] = Time.parse(params['doctor']['end_time']).in_time_zone('UTC')
     @doctor = Doctor.new(doctor_params)
 
     respond_to do |format|
@@ -58,13 +60,14 @@ class DoctorsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_doctor
-      @doctor = Doctor.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def doctor_params
-      params.require(:doctor).permit(:name, :address, :image_url, :fees, :busy_slots, :start_time, :end_time)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_doctor
+    @doctor = Doctor.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def doctor_params
+    params.require(:doctor).permit(:name, :address, :image_url, :fees, :busy_slots, :start_time, :end_time)
+  end
 end

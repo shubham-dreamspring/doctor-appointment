@@ -1,13 +1,10 @@
 <p style="color: green"><%= notice %></p>
 
-<h1>Appointments</h1>
+<h2 class="text-center mt-5 mb-4"> My Appointments</h2>
 
 <div id="appointments">
   <% @appointments.each do |appointment| %>
     <%= render appointment %>
-    <p>
-      <%= link_to "Show this appointment", appointment %>
-    </p>
   <% end %>
 </div>
 

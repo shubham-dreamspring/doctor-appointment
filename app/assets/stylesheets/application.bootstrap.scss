@@ -161,6 +161,20 @@ nav {
   }
 }
 
+.appointment-card {
+  width: 332px;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(67, 54, 149, 0.08);
+  border-radius: 12px;
+  margin-bottom: 24px;
+}
+#appointments {
+  max-width: 693px;
+  display: flex;
+  margin: auto;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
 @media screen and (min-width: 768px) {
   #doctors {
     width: 80%;

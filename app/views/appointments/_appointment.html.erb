@@ -1,32 +1,29 @@
-<div id="<%= dom_id appointment %>">
+<div id="<%= dom_id appointment %>" class="appointment-card px-3 py-4">
+  <div class="row mt-3">
+    <div class="col-3">
+      <%= image_tag appointment.doctor.image_url, size: '70', class: 'rounded', style: 'box-shadow: 0 4px 8px rgba(67, 54, 149, 0.08);' %>
+    </div>
+    <div class="col">
+      <p class="fw-bold mb-2"><%= appointment.doctor.name %></p>
+      <p class="text-secondary"><%= appointment.doctor.address %></p>
+    </div>
+  </div>
+  <p class="mt-3 text-secondary">🗓 Your Consultation Details</p>
   <p>
-    <strong>Doctor:</strong>
-    <%= appointment.doctor_id %>
+    <%= image_tag 'calender_outline.svg', size: 17 %>
+    <span class="fw-semibold">Today, 17th February</span>
+    <span class="text-secondary mx-2">|</span>
+    <%= image_tag 'clock.svg', size: 17 %>
+    <span class="fw-semibold ms-1">4:00 PM</span>
   </p>
-
-  <p>
-    <strong>User:</strong>
-    <%= appointment.user_id %>
-  </p>
-
-  <p>
-    <strong>Currency</strong>
-    <%= appointment.currency %>
-  </p>
-
-  <p>
-    <strong>Amount</strong>
-    <%= appointment.amount %>
-  </p>
-
-  <p>
-    <strong>Start timestamp:</strong>
-    <%= appointment.start_timestamp.in_time_zone 'Kolkata' %>
-  </p>
-
-  <p>
-    <strong>End timestamp:</strong>
-    <%= appointment.end_timestamp.in_time_zone 'Kolkata' %>
-  </p>
-
+  <p class="mt-5" style="color: #1C1C1C">Download your Invoice</p>
+  <div class="d-flex">
+    <button class="btn btn-dark me-1 px-4" style="font-size: 14px; line-height: 24px; padding-top: 2px;padding-bottom: 2px; ">CSV</button>
+    <button class="btn btn-dark mx-1 px-4" style="font-size: 14px; line-height: 24px; padding-top: 2px;padding-bottom: 2px; ">TXT</button>
+    <button class="btn btn-dark mx-1 px-4" style="font-size: 14px; line-height: 24px; padding-top: 2px;padding-bottom: 2px; ">PDF</button>
+  </div>
+  <div class="d-flex justify-content-between align-items-center py-3 px-2 mt-5" style="background-color: #E3E3FD;border-radius: 8px;">
+    <span>Amount Paid</span>
+    <span class="fs-5 fw-bold text-primary">Rs 500/-</span>
+  </div>
 </div>

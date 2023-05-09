@@ -14,14 +14,16 @@ class AppointmentsController < ApplicationController
 
   # GET /appointments/1 or /appointments/1.json
   def show
-    invoice = render_to_string partial: 'appointment', locals: {appointment: @appointment}
 
     respond_to do |format|
       format.html
       format.json
-      format.pdf {
+      format.pdf do
+        invoice = render_to_string partial: 'appointment', locals: { appointment: @appointment }
         render_pdf invoice, filename: "Invoice #{@appointment.id}"
-      }
+      end
+      format.csv
+      format.txt
     end
   end
 

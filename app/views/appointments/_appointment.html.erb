@@ -22,8 +22,16 @@
                 appointment_path(appointment, format: 'pdf'),
                 class: "btn btn-dark me-1 px-4",
                 style: "font-size: 14px; line-height: 24px; padding-top: 2px;padding-bottom: 2px; " %>
-    <button class="btn btn-dark me-1 px-4" style="font-size: 14px; line-height: 24px; padding-top: 2px;padding-bottom: 2px; ">CSV</button>
-    <button class="btn btn-dark mx-1 px-4" style="font-size: 14px; line-height: 24px; padding-top: 2px;padding-bottom: 2px; ">TXT</button>
+    <%= link_to 'CSV',
+                appointment_path(appointment, format: 'csv'),
+                class: "btn btn-dark me-1 px-4",
+                style: "font-size: 14px; line-height: 24px; padding-top: 2px;padding-bottom: 2px; " %>
+    <%= link_to 'TXT',
+                appointment_path(appointment, format: 'txt'),
+                class: "btn btn-dark me-1 px-4",
+                style: "font-size: 14px; line-height: 24px; padding-top: 2px;padding-bottom: 2px; ",
+                target: '_blank', download: "appointment#{appointment.id}.txt" %>
+
   </div>
   <div class="d-flex justify-content-between align-items-center py-3 px-2 mt-5" style="background-color: #E3E3FD;border-radius: 8px;">
     <span>Amount Paid</span>

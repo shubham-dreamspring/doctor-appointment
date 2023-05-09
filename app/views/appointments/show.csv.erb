@@ -1,0 +1,12 @@
+<% require 'csv' %>
+<%= CSV.generate do |csv|
+      # header row
+      csv << %w(id patient_name doctor_name appointment_time currency amount)
+      csv << [@appointment.id,
+              @appointment.user.name,
+              @appointment.doctor.name,
+              @appointment.start_timestamp.in_time_zone('Kolkata'),
+              @appointment.currency,
+              @appointment.amount]
+    end
+%>

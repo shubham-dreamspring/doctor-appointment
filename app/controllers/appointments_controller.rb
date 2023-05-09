@@ -1,3 +1,5 @@
+require_relative 'concerns/render_pdf'
+
 class AppointmentsController < ApplicationController
   before_action :set_appointment, only: %i[ show edit update destroy ]
   before_action :set_allowed_currencies, :set_currency_conversion_rate, only: %i[ new create ]
@@ -12,6 +14,15 @@ class AppointmentsController < ApplicationController
 
   # GET /appointments/1 or /appointments/1.json
   def show
+    invoice = render_to_string partial: 'appointment', locals: {appointment: @appointment}
+
+    respond_to do |format|
+      format.html
+      format.json
+      format.pdf {
+        render_pdf invoice, filename: "Invoice #{@appointment.id}"
+      }
+    end
   end
 
   # GET /appointments/new

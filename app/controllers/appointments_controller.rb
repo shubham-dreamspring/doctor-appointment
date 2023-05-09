@@ -4,8 +4,10 @@ class AppointmentsController < ApplicationController
   include CurrencyConverterHelper
   # GET /appointments or /appointments.json
   def index
-    @appointments = Appointment.all
-    puts @appointments
+    @appointments = []
+    redirect_to new_user_path unless session['user_id']
+    @appointments = Appointment.where(user_id: session['user_id']) if session['user_id']
+    puts session['user_id']
   end
 
   # GET /appointments/1 or /appointments/1.json
@@ -29,6 +31,7 @@ class AppointmentsController < ApplicationController
   def create
     users = User.where(email: user_params[:user_email])
     @user = users.empty? ? User.create({ name: user_params[:user_name], email: user_params[:user_email] }) : users[0]
+    session['user_id'] = @user.id
     params['appointment']['start_timestamp'] = Time.at(Integer(params['appointment']['start_timestamp'].to_s))
     params['appointment']['end_timestamp'] = params['appointment']['start_timestamp'] + 1.hour
     params['appointment']['user_id'] = @user.id

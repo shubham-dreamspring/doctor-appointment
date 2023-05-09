@@ -136,6 +136,10 @@ nav {
   width: 100%;
 }
 
+.success-page-wrapper > a {
+  max-width: 568px;
+}
+
 #count-down {
   color: #443EFF;
 
@@ -168,6 +172,7 @@ nav {
   border-radius: 12px;
   margin-bottom: 24px;
 }
+
 #appointments {
   max-width: 693px;
   display: flex;
@@ -175,6 +180,7 @@ nav {
   flex-wrap: wrap;
   justify-content: space-between;
 }
+
 @media screen and (min-width: 768px) {
   #doctors {
     width: 80%;

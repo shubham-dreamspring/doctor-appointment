@@ -3,6 +3,7 @@ class DoctorsController < ApplicationController
 
   # GET /doctors or /doctors.json
   def index
+    session.delete('user_id')
     @doctors = Doctor.all
   end
 

@@ -3,9 +3,11 @@
 <h2 class="text-center mt-5 mb-4"> My Appointments</h2>
 
 <div id="appointments">
-  <% @appointments.each do |appointment| %>
-    <%= render appointment %>
+  <% if !@appointments.empty? %>
+    <% @appointments.each do |appointment| %>
+      <%= render appointment %>
+    <% end %>
+  <% else %>
+    <p class="w-100 text-secondary text-center">No appointments yet !!</p>
   <% end %>
 </div>
-
-<%= link_to "New appointment", new_appointment_path %>

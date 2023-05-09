@@ -21,9 +21,17 @@ class UsersController < ApplicationController
 
   # POST /users or /users.json
   def create
+    params['user']['email'] = params['user']['email'].strip
+    exist_user = User.find_by email: params['user']['email']
+    if exist_user
+      session['user_id'] = exist_user.id
+      redirect_to appointments_path
+      return
+    end
     @user = User.new(user_params)
     respond_to do |format|
       if @user.save
+        session['user_id'] = @user.id
         format.html { redirect_to user_url(@user), notice: "User was successfully created." }
         format.json { render :show, status: :created, location: @user }
       else

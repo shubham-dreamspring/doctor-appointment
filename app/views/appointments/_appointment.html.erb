@@ -16,6 +16,7 @@
     <%= image_tag 'clock.svg', size: 17 %>
     <span class="fw-semibold ms-1"> <%= appointment.start_timestamp.in_time_zone('Kolkata').strftime('%I : %M %p') %></span>
   </p>
+  <%= button_to "cancel", appointment, method: :delete, class: 'btn btn-outline-danger' %>
   <p class="mt-5" style="color: #1C1C1C">Download your Invoice</p>
   <div class="d-flex">
     <%= link_to 'PDF',

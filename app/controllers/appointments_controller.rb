@@ -54,6 +54,8 @@ class AppointmentsController < ApplicationController
 
     respond_to do |format|
       if @appointment.save
+        mailer = AppointmentMailer.with(appointment_id: @appointment.id).send_invoice.deliver_later(wait_until: 1.minute.from_now)
+        puts mailer
         format.turbo_stream do
           render turbo_stream: turbo_stream.replace(:new_appointment,
                                                     partial: 'success',
@@ -86,7 +88,7 @@ class AppointmentsController < ApplicationController
     @appointment.destroy
 
     respond_to do |format|
-      format.html { redirect_to appointments_url, notice: "Appointment was successfully destroyed." }
+      format.html { redirect_to appointments_url, notice: "Appointment was successfully cancelled." }
       format.json { head :no_content }
     end
   end

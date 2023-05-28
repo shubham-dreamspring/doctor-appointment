@@ -43,7 +43,17 @@ class AppointmentsController < ApplicationController
   # POST /appointments or /appointments.json
   def create
     users = User.where(email: user_params[:user_email])
-    @user = users.empty? ? User.create({ name: user_params[:user_name], email: user_params[:user_email] }) : users[0]
+
+    if users.empty?
+      user = User.new({ name: user_params[:user_name], email: user_params[:user_email] })
+      if user.save
+        @user = user
+      else
+        flash[:error] = user.errors.full_messages
+      end
+    else
+      @user = users[0]
+    end
     session['user_id'] = @user.id
     params['appointment']['start_timestamp'] = Time.at(Integer(params['appointment']['start_timestamp'].to_s))
     params['appointment']['end_timestamp'] = params['appointment']['start_timestamp'] + 1.hour

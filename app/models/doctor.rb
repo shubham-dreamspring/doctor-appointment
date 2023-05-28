@@ -3,6 +3,9 @@ class Doctor < ApplicationRecord
 
   before_destroy :referenced_by_no_appointment
 
+  validates :name, :fees, :image_url, presence: true
+  validates :fees, numericality: { greater_than_or_equal_to: 0.01 }
+
   private
 
   def referenced_by_no_appointment

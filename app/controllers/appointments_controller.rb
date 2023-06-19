@@ -159,7 +159,8 @@ class AppointmentsController < ApplicationController
 
   def get_available_time_slots(doctor)
     gen_time_slots = general_day_time_slots doctor
-    appointment_booked = Appointment.find_by_sql("SELECT start_timestamp FROM appointments WHERE start_timestamp >= current_timestamp and doctor_id == #{doctor.id} ORDER BY start_timestamp;")
+    sql_query_string = "SELECT start_timestamp FROM appointments WHERE start_timestamp >= current_timestamp and doctor_id = #{doctor.id} ORDER BY start_timestamp;"
+    appointment_booked = Appointment.find_by_sql(sql_query_string)
     appointment_booked_array = []
     appointment_booked.each { |row| appointment_booked_array << row[:start_timestamp] }
     date = Date.today

@@ -63,8 +63,7 @@ class AppointmentsController < ApplicationController
 
     respond_to do |format|
       if @appointment.save
-        mailer = AppointmentMailer.with(appointment_id: @appointment.id).send_invoice.deliver_later(wait_until: 1.minute.from_now)
-        puts mailer
+        mailer = AppointmentMailer.with(appointment_id: @appointment.id).send_invoice.deliver_later(wait_until: 2.hour.from_now)
         format.turbo_stream do
           render turbo_stream: turbo_stream.replace(:new_appointment,
                                                     partial: 'success',

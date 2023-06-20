@@ -7,8 +7,8 @@
 #   Character.create(name: "Luke", movie: movies.first)
 Doctor.create([
                 { name: "Dr. Hynes",
-                  address: "fghjkl;;",
-                  image_url: "image1.png",
+                  address: "Stanford University",
+                  image_url: "doctor1_image.png",
                   fees: 0.56789e5,
                   busy_slots: ['07:30 1'],
                   start_time: '06:30',
@@ -16,14 +16,20 @@ Doctor.create([
                 },
                 {
                   name: "Dr. Yamma",
-                  address: "dfhjkl;",
-                  image_url: "image1.png",
+                  address: "Celebrium, Human Brain",
+                  image_url: "doctor2_image.png",
                   fees: 0.23e2
                 },
                 {
                   name: "Dr. Octopus",
-                  address: "fghjtyiuovbnm.,",
-                  image_url: "image1.png",
+                  address: "Water Colony, Red Sea",
+                  image_url: "doctor3_image.png",
+                  fees: 0.345e3,
+                },
+                {
+                  name: "Dr. Yatharth",
+                  address: "Ghumnam Sahar, Malabar Island",
+                  image_url: "doctor4_image.png",
                   fees: 0.345e3,
                 }
               ]
@@ -36,7 +42,7 @@ User.create([
               },
               {
                 name: 'Shubham Jain',
-                email: 'abc@email.com',
+                email: 'abc2@email.com',
                 role: 'admin'
               },
             ])

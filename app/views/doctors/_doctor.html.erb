@@ -10,9 +10,14 @@
       </div>
     </div>
     <div class="row mt-2 align-items-center">
-      <div class="col-7">
+      <div class="col-7 pe-0">
         <small class="text-success">Next Available - </small>
-        <small>3:00 PM</small>
+        <% if !doctor.get_next_available_slot %>
+          <small>No time slot available today</small>
+        <% else %>
+          <small><%= doctor.get_next_available_slot.in_time_zone('Kolkata').strftime('%I:%M %p') %></small>
+        <% end %>
+
       </div>
       <div class="col-5">
         <%= link_to 'Book Visit', new_appointment_url(:doctor_id => doctor.id), class: 'btn btn-primary' %>

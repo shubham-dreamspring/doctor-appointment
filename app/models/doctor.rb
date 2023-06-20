@@ -6,14 +6,6 @@ class Doctor < ApplicationRecord
   validates :name, :fees, :image_url, presence: true
   validates :fees, numericality: { greater_than_or_equal_to: 0.01 }
 
-  private
-
-  def referenced_by_no_appointment
-    unless appointments.empty?
-      errors.add(:base, 'Appointments is present')
-      throw :abort
-    end
-  end
 
   def get_next_available_slot
     start_time = self.start_time.in_time_zone('Kolkata')
@@ -31,24 +23,34 @@ class Doctor < ApplicationRecord
       general_time_slots.push break_end_time
       break_end_time = break_end_time + 1.hour
     end
-    appointment_booked = Appointment.find_by_sql("SELECT start_timestamp FROM appointments WHERE start_timestamp >= current_timestamp and doctor_id == #{self.id} ORDER BY start_timestamp;")
+    sql_query = "SELECT start_timestamp FROM appointments WHERE start_timestamp >= current_timestamp and doctor_id = #{self.id} ORDER BY start_timestamp;"
+    appointment_booked = Appointment.find_by_sql(sql_query)
     appointment_booked_array = []
     appointment_booked.each { |row| appointment_booked_array << row[:start_timestamp] }
     date = Date.today
-    8.times do
-      key = date
-      time_slots_for_day = []
-      gen_time_slots.each do |t|
-        time_at_given_slot = Time.new(date.year, date.month, date.day, t.hour, t.min)
-        index_in_booked_appointment = appointment_booked_array.index time_at_given_slot
-        if index_in_booked_appointment
-          appointment_booked_array.delete_at index_in_booked_appointment
-          next
-        end
-        time_slots_for_day << time_at_given_slot if (time_at_given_slot > Time.now)
+    @next_available_slot = nil
+    general_time_slots.each do |t|
+      time_at_given_slot = Time.new(date.year, date.month, date.day, t.hour, t.min)
+      index_in_booked_appointment = appointment_booked_array.index time_at_given_slot
+      if index_in_booked_appointment
+        appointment_booked_array.delete_at index_in_booked_appointment
+        next
       end
-      self.next_available_slot = time_slots_for_day
-      date = date + 1.day
+      if time_at_given_slot >= Time.now
+        @next_available_slot = time_at_given_slot
+        break
+      end
+    end
+    @next_available_slot
+  end
+
+  private
+
+  def referenced_by_no_appointment
+    unless appointments.empty?
+      errors.add(:base, 'Appointments is present')
+      throw :abort
     end
   end
+
 end

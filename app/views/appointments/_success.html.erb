@@ -1,5 +1,6 @@
-<aside class="success-page-wrapper d-flex justify-content-center align-items-center flex-column">
-  <div id="success-appointment-page" class="d-flex flex-column justify-content-center align-items-center bg-white">
+<aside class="success-page-wrapper d-flex justify-content-center align-items-center flex-column" data-controller='fakePayment'>
+  <%= render partial: 'fake_payment' %>
+  <div data-fakePayment-target="successScreen" id="success-appointment-page" class="d-none flex-column justify-content-center align-items-center bg-white">
     <%= image_tag 'success_green_tick.svg', class: 'd-block mt-4' %>
     <p class="h4 text-success fw-bold mb-3">Congratulations</p>
     <span style="font-size: 18px" class="mb-4">Appointment Booked </span>
@@ -7,5 +8,5 @@
     <span style="color:#686868" class="mb-2">Meeting starts in</span>
     <%= render partial: 'count_down', locals: { end_time: appointment.start_timestamp } %>
   </div>
-  <%= link_to 'My appointments', appointments_path , class: 'w-100 btn btn-outline-primary mt-3'%>
+  <%= link_to 'My appointments', appointments_path, class: 'w-100 btn btn-outline-primary mt-3' %>
 </aside>

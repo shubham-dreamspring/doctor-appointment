@@ -5,8 +5,14 @@
     </div>
     <div class="col-6">
       <span class="d-none d-md-inline me-3">|</span>
-      <%= image_tag 'calender.svg', class: 'mr-1' %>
-      <span class="d-inline-block ms-1">My Appointments</span>
+      <a href="/appointments" style="text-decoration: none; color: <%= current_page?(controller: 'appointments', action: 'index') ? '#3929F4' : '#0A0926' %>">
+        <% if current_page?(controller: 'appointments', action: 'index') %>
+          <%= image_tag 'calender_primary.svg', class: 'mr-1' %>
+        <% else %>
+          <%= image_tag 'calender.svg', class: 'mr-1' %>
+        <% end %>
+        <span class="d-inline-block ms-1">My Appointments</span>
+      </a>
     </div>
   </div>
 </nav>

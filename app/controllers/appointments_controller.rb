@@ -9,7 +9,6 @@ class AppointmentsController < ApplicationController
     @appointments = []
     redirect_to new_user_path unless session['user_id']
     @appointments = Appointment.where(user_id: session['user_id']) if session['user_id']
-    puts session['user_id']
   end
 
   # GET /appointments/1 or /appointments/1.json

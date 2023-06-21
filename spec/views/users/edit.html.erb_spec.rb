@@ -4,7 +4,7 @@ RSpec.describe "users/edit", type: :view do
   let(:user) {
     User.create!(
       name: "MyString",
-      email: "MyString"
+      email: "abc@gmail.com"
     )
   }
 

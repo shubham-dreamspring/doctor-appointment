@@ -5,9 +5,8 @@ RSpec.describe "doctors/new", type: :view do
     assign(:doctor, Doctor.new(
       name: "MyString",
       address: "MyText",
-      image_url: "MyString",
+      image_url: "image1.png",
       fees: "9.99",
-      busy_slots: "MyString"
     ))
   end
 
@@ -24,7 +23,6 @@ RSpec.describe "doctors/new", type: :view do
 
       assert_select "input[name=?]", "doctor[fees]"
 
-      assert_select "input[name=?]", "doctor[busy_slots]"
     end
   end
 end

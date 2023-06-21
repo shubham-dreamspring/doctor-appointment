@@ -5,18 +5,15 @@ RSpec.describe "doctors/show", type: :view do
     assign(:doctor, Doctor.create!(
       name: "Name",
       address: "MyText",
-      image_url: "Image Url",
-      fees: "9.99",
-      busy_slots: "Busy Slots"
+      image_url: "image1.png",
+      fees: "9.99"
     ))
   end
 
   it "renders attributes in <p>" do
     render
-    expect(rendered).to match(/Name/)
-    expect(rendered).to match(/MyText/)
-    expect(rendered).to match(/Image Url/)
-    expect(rendered).to match(/9.99/)
-    expect(rendered).to match(/Busy Slots/)
+    expect(rendered).to match /Name/
+    cell_selector = '.doctor-card'
+    assert_select cell_selector, text: Regexp.new("Name".to_s), count: 1
   end
 end

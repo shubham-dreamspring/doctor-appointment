@@ -6,8 +6,7 @@ RSpec.describe "doctors/edit", type: :view do
       name: "MyString",
       address: "MyText",
       image_url: "MyString",
-      fees: "9.99",
-      busy_slots: "MyString"
+      fees: "9.99"
     )
   }
 
@@ -28,7 +27,6 @@ RSpec.describe "doctors/edit", type: :view do
 
       assert_select "input[name=?]", "doctor[fees]"
 
-      assert_select "input[name=?]", "doctor[busy_slots]"
     end
   end
 end

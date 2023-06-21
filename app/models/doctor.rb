@@ -6,7 +6,6 @@ class Doctor < ApplicationRecord
   validates :name, :fees, :image_url, presence: true
   validates :fees, numericality: { greater_than_or_equal_to: 0.01 }
 
-
   def get_next_available_slot
     start_time = self.start_time.in_time_zone('Kolkata')
     end_time = self.end_time.in_time_zone('Kolkata')
@@ -26,11 +25,11 @@ class Doctor < ApplicationRecord
     sql_query = "SELECT start_timestamp FROM appointments WHERE start_timestamp >= current_timestamp and doctor_id = #{self.id} ORDER BY start_timestamp;"
     appointment_booked = Appointment.find_by_sql(sql_query)
     appointment_booked_array = []
-    appointment_booked.each { |row| appointment_booked_array << row[:start_timestamp] }
+    appointment_booked.each { |row| appointment_booked_array << row[:start_timestamp].in_time_zone('Kolkata') }
     date = Date.today
     @next_available_slot = nil
     general_time_slots.each do |t|
-      time_at_given_slot = Time.new(date.year, date.month, date.day, t.hour, t.min)
+      time_at_given_slot = Time.new(date.year, date.month, date.day, t.hour, t.min,0, "+05:30")
       index_in_booked_appointment = appointment_booked_array.index time_at_given_slot
       if index_in_booked_appointment
         appointment_booked_array.delete_at index_in_booked_appointment

@@ -4,9 +4,9 @@
     <%= image_tag 'success_green_tick.svg', class: 'd-block mt-4' %>
     <p class="h4 text-success fw-bold mb-3">Congratulations</p>
     <span style="font-size: 18px" class="mb-4">Appointment Booked </span>
-    <span class="h3 text-primary mb-3"><%= appointment.start_timestamp.today? ? 'Today, ' : appointment.start_timestamp.strftime('%A, ') %><%= appointment.start_timestamp.day.ordinalize %><%= appointment.start_timestamp.strftime(' %B, %I:%M %p') %></span>
+    <span class="h3 text-primary mb-3"><%= appointment.start_timestamp.in_time_zone('Kolkata').today? ? 'Today, ' : appointment.start_timestamp.in_time_zone('Kolkata').strftime('%A, ') %><%= appointment.start_timestamp.in_time_zone('Kolkata').day.ordinalize %><%= appointment.start_timestamp.in_time_zone('Kolkata').strftime(' %B, %I:%M %p') %></span>
     <span style="color:#686868" class="mb-2">Meeting starts in</span>
-    <%= render partial: 'count_down', locals: { end_time: appointment.start_timestamp } %>
+    <%= render partial: 'count_down', locals: { end_time: appointment.start_timestamp.in_time_zone('Kolkata') } %>
   </div>
   <%= link_to 'My appointments', appointments_path, class: 'w-100 btn btn-outline-primary mt-3' %>
 </aside>

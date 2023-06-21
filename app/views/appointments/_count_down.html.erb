@@ -1,5 +1,5 @@
 <div data-controller="countdown" id="count-down" class="d-flex pb-5">
-  <span class="d-none" data-countdown-target="endDateSpan"><%= end_time %></span>
+  <span class="d-none" data-countdown-target="endDateSpan"><%= end_time.strftime('%Y-%m-%dT%H:%M:%S%z') %></span>
   <div>
     <div class="d-flex">
       <span data-countdown-target="firstDayDigit"><%= (end_time.day / 10).to_s %></span>

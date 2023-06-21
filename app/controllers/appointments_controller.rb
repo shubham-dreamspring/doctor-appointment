@@ -54,7 +54,7 @@ class AppointmentsController < ApplicationController
       @user = users[0]
     end
     session['user_id'] = @user.id
-    params['appointment']['start_timestamp'] = Time.at(Integer(params['appointment']['start_timestamp'].to_s))
+    params['appointment']['start_timestamp'] = Time.at(Integer(params['appointment']['start_timestamp'].to_s)).in_time_zone('UTC')
     params['appointment']['end_timestamp'] = params['appointment']['start_timestamp'] + 1.hour
     params['appointment']['user_id'] = @user.id
     doctor = Doctor.find(params['appointment']['doctor_id'])
@@ -160,13 +160,13 @@ class AppointmentsController < ApplicationController
     sql_query_string = "SELECT start_timestamp FROM appointments WHERE start_timestamp >= current_timestamp and doctor_id = #{doctor.id} ORDER BY start_timestamp;"
     appointment_booked = Appointment.find_by_sql(sql_query_string)
     appointment_booked_array = []
-    appointment_booked.each { |row| appointment_booked_array << row[:start_timestamp] }
+    appointment_booked.each { |row| appointment_booked_array << row[:start_timestamp].in_time_zone('Kolkata') }
     date = Date.today
     8.times do
       key = date
       time_slots_for_day = []
       gen_time_slots.each do |t|
-        time_at_given_slot = Time.new(date.year, date.month, date.day, t.hour, t.min)
+        time_at_given_slot = Time.new(date.year, date.month, date.day, t.hour, t.min, 0, "+05:30")
         index_in_booked_appointment = appointment_booked_array.index time_at_given_slot
         if index_in_booked_appointment
           appointment_booked_array.delete_at index_in_booked_appointment

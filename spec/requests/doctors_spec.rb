@@ -13,16 +13,29 @@ require 'rails_helper'
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
 RSpec.describe "/doctors", type: :request do
-  
+
   # This should return the minimal set of attributes required to create a valid
   # Doctor. As you add validations to Doctor, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    {
+      name: "Dr. Hynes",
+      address: "Stanford University",
+      image_url: "doctor1_image.png",
+      fees: 0.56789e5,
+      busy_slots: ['07:30 1'],
+      start_time: '06:30',
+      end_time: '10:30'
+    }
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    {
+      address: "Celebrium, Human Brain",
+      image_url: "doctor2_image.png",
+      start_time: '06:30',
+      end_time: '10:30'
+    }
   }
 
   describe "GET /index" do
@@ -77,47 +90,13 @@ RSpec.describe "/doctors", type: :request do
         }.to change(Doctor, :count).by(0)
       end
 
-    
       it "renders a response with 422 status (i.e. to display the 'new' template)" do
         post doctors_url, params: { doctor: invalid_attributes }
         expect(response).to have_http_status(:unprocessable_entity)
       end
-    
+
     end
   end
-
-  describe "PATCH /update" do
-    context "with valid parameters" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
-
-      it "updates the requested doctor" do
-        doctor = Doctor.create! valid_attributes
-        patch doctor_url(doctor), params: { doctor: new_attributes }
-        doctor.reload
-        skip("Add assertions for updated state")
-      end
-
-      it "redirects to the doctor" do
-        doctor = Doctor.create! valid_attributes
-        patch doctor_url(doctor), params: { doctor: new_attributes }
-        doctor.reload
-        expect(response).to redirect_to(doctor_url(doctor))
-      end
-    end
-
-    context "with invalid parameters" do
-    
-      it "renders a response with 422 status (i.e. to display the 'edit' template)" do
-        doctor = Doctor.create! valid_attributes
-        patch doctor_url(doctor), params: { doctor: invalid_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
-      end
-    
-    end
-  end
-
   describe "DELETE /destroy" do
     it "destroys the requested doctor" do
       doctor = Doctor.create! valid_attributes

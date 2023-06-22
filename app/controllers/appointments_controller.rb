@@ -1,14 +1,15 @@
-require_relative 'concerns/render_pdf'
-
 class AppointmentsController < ApplicationController
   before_action :set_appointment, only: %i[ show edit update destroy ]
   before_action :set_allowed_currencies, :set_currency_conversion_rate, only: %i[ new create ]
   include CurrencyConverterHelper
+  include PdfGeneratorHelper
   # GET /appointments or /appointments.json
   def index
-    @appointments = []
-    redirect_to new_user_path unless session['user_id']
-    @appointments = Appointment.where(user_id: session['user_id']) if session['user_id']
+    unless session['user_id']
+      redirect_to new_user_path
+      return
+    end
+    @appointments = Appointment.where(user_id: session['user_id'])
   end
 
   # GET /appointments/1 or /appointments/1.json
@@ -28,11 +29,8 @@ class AppointmentsController < ApplicationController
 
   # GET /appointments/new
   def new
-    @appointment = Appointment.new(:doctor_id => params[:doctor_id])
-    doctor = Doctor.find(params[:doctor_id])
-    @time_slots = {}
-    get_available_time_slots doctor
-    @doctor_fees = doctor.fees
+    @appointment = Appointment.new(doctor_id: params[:doctor_id])
+    @time_slots = @appointment.doctor.get_all_available_time_slots
   end
 
   # GET /appointments/1/edit
@@ -41,17 +39,14 @@ class AppointmentsController < ApplicationController
 
   # POST /appointments or /appointments.json
   def create
-    users = User.where(email: user_params[:user_email])
-
-    if users.empty?
-      user = User.new({ name: user_params[:user_name], email: user_params[:user_email] })
-      if user.save
-        @user = user
-      else
-        flash[:error] = user.errors.full_messages
+    @user = User.find_by(email: user_params[:user_email])
+    if @user.nil?
+      @user = User.create({ name: user_params[:user_name], email: user_params[:user_email] })
+      unless @user.valid?
+        flash[:error] = 'Invalid Email'
+        redirect_to new_appointment_path(params: { doctor_id: params['appointment']['doctor_id'] }), status: :bad_request
+        return
       end
-    else
-      @user = users[0]
     end
     session['user_id'] = @user.id
     params['appointment']['start_timestamp'] = Time.at(Integer(params['appointment']['start_timestamp'].to_s)).in_time_zone('UTC')
@@ -117,25 +112,6 @@ class AppointmentsController < ApplicationController
     params.require(:appointment).permit(:user_name, :user_email)
   end
 
-  def general_day_time_slots(doctor)
-    start_time = doctor.start_time.in_time_zone('Kolkata')
-    end_time = doctor.end_time.in_time_zone('Kolkata')
-    break_start_time = Time.parse('2000-01-01 ' + doctor.busy_slots[0].split[0] + " UTC")
-    break_start_time = break_start_time.in_time_zone('Kolkata')
-    break_end_time = break_start_time + doctor.busy_slots[0].split[1].to_f.hour
-    general_time_slots = []
-
-    while break_start_time - start_time >= 3600 do
-      general_time_slots.push start_time
-      start_time = start_time + 1.hour
-    end
-    while end_time - break_end_time >= 3600 do
-      general_time_slots.push break_end_time
-      break_end_time = break_end_time + 1.hour
-    end
-    general_time_slots
-  end
-
   def set_currency_conversion_rate
     cached_conversion_rates = Rails.cache.read('conversion_rates')
 
@@ -155,27 +131,4 @@ class AppointmentsController < ApplicationController
     @allowed_currencies = %w[EUR USD INR]
   end
 
-  def get_available_time_slots(doctor)
-    gen_time_slots = general_day_time_slots doctor
-    sql_query_string = "SELECT start_timestamp FROM appointments WHERE start_timestamp >= current_timestamp and doctor_id = #{doctor.id} ORDER BY start_timestamp;"
-    appointment_booked = Appointment.find_by_sql(sql_query_string)
-    appointment_booked_array = []
-    appointment_booked.each { |row| appointment_booked_array << row[:start_timestamp].in_time_zone('Kolkata') }
-    date = Date.today
-    8.times do
-      key = date
-      time_slots_for_day = []
-      gen_time_slots.each do |t|
-        time_at_given_slot = Time.new(date.year, date.month, date.day, t.hour, t.min, 0, "+05:30")
-        index_in_booked_appointment = appointment_booked_array.index time_at_given_slot
-        if index_in_booked_appointment
-          appointment_booked_array.delete_at index_in_booked_appointment
-          next
-        end
-        time_slots_for_day << time_at_given_slot if (time_at_given_slot > Time.now)
-      end
-      @time_slots[key] = time_slots_for_day
-      date = date + 1.day
-    end
-  end
 end

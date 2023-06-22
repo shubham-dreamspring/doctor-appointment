@@ -12,13 +12,13 @@
                               data: {
                                 action: 'appointment#currencyConverter',
                                 'appointment-cur-param' => cur,
-                                'appointment-amount-param' => @currency_conversion_rate[cur] * @doctor_fees
+                                'appointment-amount-param' => @currency_conversion_rate[cur] * @appointment.doctor.fees
                               },
                               class: 'btn-check' %>
         <%= form.label "currency_#{cur.downcase}", cur, class: "g-col-4 btn btn-outline-primary" %>
       <% end %>
 
     </div>
-    <%= form.submit "Pay #{ @doctor_fees}INR", data: { 'appointment-target' => 'payButton' }, class: "btn btn-primary w-100" %>
+    <%= form.submit "Pay #{ @appointment.doctor.fees}INR", data: { 'appointment-target' => 'payButton' }, class: "btn btn-primary w-100" %>
   </aside>
 </div>

@@ -8,7 +8,7 @@ export default class extends Controller {
             this.paymentProcessingScreenTarget.classList.remove('d-flex')
             this.paymentProcessingScreenTarget.classList.add('d-none')
             this.successScreenTarget.classList.remove('d-none')
-            this.successScreenTarget.classList.add('d-flex')
+            this.successScreenTarget.classList.add('d-block')
         }, 5000)
     }
 }

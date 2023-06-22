@@ -2,9 +2,9 @@
   <aside class="page2">
     <h4 class="text-center">Add Details 🧑🏻</h4>
     <%= form.label :user_name, "Name", class: "form-label" %>
-    <%= form.text_field :user_name, class: "form-control mb-4",required: true %>
+    <%= form.text_field :user_name, class: "form-control mb-4", placeholder: 'Enter Name', required: true %>
     <%= form.label :user_email, "Email", class: "form-label" %>
-    <%= form.email_field :user_email, class: "form-control mb-4",required: true %>
+    <%= form.email_field :user_email, class: "form-control mb-4", placeholder: 'Enter Email', required: true %>
     <label class="form-label mb-3">Select Currency</label>
     <div class="grid mb-4">
       <% @allowed_currencies.each do |cur| %>
@@ -14,8 +14,8 @@
                                 'appointment-cur-param' => cur,
                                 'appointment-amount-param' => @currency_conversion_rate[cur] * @appointment.doctor.fees
                               },
-                              class: 'btn-check' %>
-        <%= form.label "currency_#{cur.downcase}", cur, class: "g-col-4 btn btn-outline-primary" %>
+                              class: 'btn-check radio-outline-input' %>
+        <%= form.label "currency_#{cur.downcase}", cur, class: "g-col-4 radio-outline-btn" %>
       <% end %>
 
     </div>

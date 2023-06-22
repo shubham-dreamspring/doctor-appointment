@@ -29,6 +29,11 @@ nav {
   border-radius: 0.5rem;
   border: 1px solid #E8E8E8;
   padding: 0.625rem;
+
+  address {
+    font-size: 14px;
+    line-height: 24px;
+  }
 }
 
 .book-visit-btn {
@@ -36,16 +41,22 @@ nav {
 
 }
 
-.carousel-item > .row::after {
-  content: " ";
-  z-index: -1;
-  height: 3px;
-  display: block;
-  width: 100%;
-  position: absolute;
-  bottom: 0;
-  background-color: #D9D9D9;
-  margin: 0;
+#datePickerCarousel {
+  .carousel-item {
+    height: 72px;
+  }
+
+  .carousel-item > .row::after {
+    content: " ";
+    z-index: -1;
+    height: 3px;
+    display: block;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    background-color: #D9D9D9;
+    margin: 0;
+  }
 }
 
 .nav-underline {
@@ -132,12 +143,21 @@ nav {
 #success-appointment-page {
   box-shadow: 0 4px 6px rgba(65, 52, 146, 0.06), 0 4px 12px rgba(65, 52, 146, 0.12);
   border-radius: 16px;
-  max-width: 568px;
-  width: 100%;
 }
 
 .success-page-wrapper > a {
   max-width: 568px;
+}
+
+#doctor-book-visit-btn {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  padding: 10px 25px;
+}
+
+#doctor-next-slot-div {
+  font-size: 12px;
 }
 
 #count-down {
@@ -167,6 +187,7 @@ nav {
 
 .appointment-card {
   width: 332px;
+  height: fit-content;
   background-color: white;
   box-shadow: 0 4px 8px rgba(67, 54, 149, 0.08);
   border-radius: 12px;
@@ -179,6 +200,23 @@ nav {
   margin: auto;
   flex-wrap: wrap;
   justify-content: space-between;
+}
+
+.radio-outline-btn {
+  background-color: white;
+  color: $primary;
+  border: 1px solid $primary;
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+}
+
+.radio-outline-btn:hover, .radio-outline-btn:active, .radio-outline-btn:focus, .active-primary-btn, .radio-outline-input:checked + label {
+  background-color: #DBDEFF;
+  color: #2E1CFC;
+  font-weight: 600;
+  margin: 1px;
+  border: 0;
 }
 
 @media screen and (min-width: 768px) {

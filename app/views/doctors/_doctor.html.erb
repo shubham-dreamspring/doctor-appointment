@@ -10,17 +10,17 @@
       </div>
     </div>
     <div class="row mt-2 align-items-center">
-      <div class="col-7 pe-0">
-        <small class="text-success">Next Available - </small>
+      <div class="col-7 pe-0" id="doctor-next-slot-div">
+        <span class="text-success">Next Available - </span>
         <% if !doctor.get_next_available_slot %>
-          <small>No time slot available today</small>
+          <span class="text-secondary">No time slot available today</span>
         <% else %>
-          <small><%= doctor.get_next_available_slot.in_time_zone('Kolkata').strftime('%I:%M %p') %></small>
+          <span class="text-secondary"><%= doctor.get_next_available_slot.in_time_zone('Kolkata').strftime('%I:%M %p') %></span>
         <% end %>
 
       </div>
-      <div class="col-5">
-        <%= link_to 'Book Visit', new_appointment_url(:doctor_id => doctor.id), class: 'btn btn-primary' %>
+      <div class="col-5 p-0">
+        <%= link_to 'Book Visit', new_appointment_url(:doctor_id => doctor.id), class: 'btn btn-primary', id: 'doctor-book-visit-btn' %>
       </div>
     </div>
   </div>

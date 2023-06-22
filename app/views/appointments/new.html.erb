@@ -1,8 +1,10 @@
 <aside data-controller='appointment' id="new_appointment">
   <%= form_with model: @appointment do |form| %>
     <div data-appointment-target="page1" class="page1 m-auto">
-      <%= image_tag 'calender_outline.svg', class: 'me-2 mb-1' %>
-      Select a date
+      <div class="mb-2">
+        <%= image_tag 'calender_outline.svg', class: 'me-2 mb-1' %>
+        <span class="fw-semibold">Select a date</span>
+      </div>
       <br>
 
       <%= render partial: 'date_picker', locals: { form: form } %>

@@ -17,7 +17,7 @@
     <span class="fw-semibold ms-1"> <%= appointment.start_timestamp.in_time_zone('Kolkata').strftime('%I : %M %p') %></span>
   </p>
   <% if appointment.start_timestamp.in_time_zone('Kolkata') - Time.now.in_time_zone('Kolkata') >= 30.minute %>
-    <%= button_to "cancel", appointment, method: :delete, class: 'btn btn-outline-danger' %>
+    <%= button_to "Cancel", appointment, method: :delete, class: 'w-100 btn btn-outline-danger' %>
   <% end %>
   <p class="mt-5" style="color: #1C1C1C">Download your Invoice</p>
   <div class="d-flex">

@@ -16,9 +16,9 @@
       <div class="grid text-center">
         <% if !value.empty? %>
           <% value.each do |time| %>
-            <%= form.radio_button :start_timestamp, time.to_i, class: 'btn-check', data: { action: "input->appointment#toggleBookBtn" } %>
-            <%= form.label "start_timestamp_#{time.to_i}", class: "g-col-4 btn btn-outline-primary" do %>
-              <%= time.strftime('%I : %M %P') %>
+            <%= form.radio_button :start_timestamp, time.to_i, class: 'radio-outline-input btn-check', data: { action: "input->appointment#toggleBookBtn" } %>
+            <%= form.label "start_timestamp_#{time.to_i}", class: "g-col-4 radio-outline-btn" do %>
+              <%= time.strftime('%I : %M %p') %>
             <% end %>
           <% end %>
         <% else %>

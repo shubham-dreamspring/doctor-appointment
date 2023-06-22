@@ -43,7 +43,7 @@ nav {
 
 #datePickerCarousel {
   .carousel-item {
-    height: 72px;
+    min-height: 72px;
   }
 
   .carousel-item > .row::after {
@@ -108,7 +108,7 @@ nav {
   }
 
   .page2 {
-    max-width: 328px
+    max-width: 450px
   }
 
   .page2-wrapper {
@@ -196,10 +196,8 @@ nav {
 
 #appointments {
   max-width: 693px;
-  display: flex;
   margin: auto;
   flex-wrap: wrap;
-  justify-content: space-between;
 }
 
 .radio-outline-btn {
@@ -219,6 +217,12 @@ nav {
   border: 0;
 }
 
+#success-appointment-datetime-span {
+  color: #542EBF;
+  font-size: 20px;
+  font-weight: 700;
+}
+
 @media screen and (min-width: 768px) {
   #doctors {
     width: 80%;
@@ -228,5 +232,56 @@ nav {
 @media screen and (min-width: 992px) {
   #doctors {
     width: 60%;
+  }
+}
+
+@media (max-width: 576px) {
+  body {
+    font-size: 14px;
+  }
+  #success-appointment-datetime-span {
+    font-size: 16px;
+  }
+  #datePickerCarousel {
+    .carousel-item > .row::after {
+      content: '';
+      height: 0;
+      width: 0;
+    }
+  }
+  .date-slot {
+    border: 1px solid #E8E8E8;
+    border-radius: 8px;
+    display: inline-block;
+    margin: 8px;
+    font-size: 14px;
+  }
+  .date-slot > div {
+    text-align: center;
+    margin: 8px;
+  }
+
+  .page2-wrapper {
+    margin-top: 16px;
+  }
+
+  .nav-underline {
+    a {
+      font-size: 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    a.active {
+      background-color: #EBEAFF;
+      border: 1px solid #9895FF;
+    }
+
+    a.active::after {
+      content: "";
+      height: 0;
+      width: 0;
+    }
   }
 }

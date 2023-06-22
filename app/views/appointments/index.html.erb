@@ -2,8 +2,7 @@
 
 <h2 class="text-center mt-5 mb-4"> My Appointments</h2>
 
-
-<div id="appointments">
+<div id="appointments" class="d-flex justify-content-center justify-content-md-between">
   <% if !@appointments.empty? %>
     <% @appointments.each do |appointment| %>
       <%= render appointment %>

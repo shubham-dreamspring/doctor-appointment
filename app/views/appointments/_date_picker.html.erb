@@ -6,7 +6,7 @@
           <div class="row">
             <% three_time_slots.each do |t, _| %>
               <a
-                class="col p-0 nav-link text-primary <%= t.today? ? 'active' : '' %>"
+                class="date-slot col p-0 nav-link text-primary <%= t.today? ? 'active' : '' %>"
                 id="nav-<%= t.strftime('%m%d%Y') %>-tab"
                 data-bs-toggle="tab"
                 data-bs-target="<%= "#nav-#{t.strftime('%m%d%Y')}" %>"

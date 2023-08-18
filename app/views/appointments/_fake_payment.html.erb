@@ -1,8 +1,6 @@
-<aside class="success-page-wrapper d-flex justify-content-center align-items-center flex-column" data-controller='fakePayment'>
-
-  <div data-fakePayment-target="paymentProcessingScreen" class="d-flex flex-column justify-content-center align-items-center">
+<aside class="success-page-wrapper d-none justify-content-center align-items-center flex-column" data-appointment-target="paymentProcessingScreen">
+  <div id="payment_processing_div"  class="d-flex flex-column justify-content-center align-items-center">
     <%= image_tag 'payment_processing.gif' %>
     <strong class="mt-3">Hold Tight! We are processing Payment</strong>
   </div>
-  <%= render partial: 'success', locals: { appointment: @appointment } %>
 </aside>

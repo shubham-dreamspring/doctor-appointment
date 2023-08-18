@@ -1,5 +1,5 @@
 <aside data-controller='appointment' id="new_appointment" class="mx-3">
-  <%= form_with model: @appointment do |form| %>
+  <%= form_with(model: @appointment, html: { "data-action": "submit->appointment#renderPaymentProcessingScreen" }) do |form| %>
     <div data-appointment-target="page1" class="page1 m-auto">
       <div class="mb-2">
         <%= image_tag 'calender_outline.svg', class: 'me-2 mb-1' %>
@@ -19,6 +19,7 @@
       </div>
     </div>
     <%= render partial: 'user_form', locals: { form: form } %>
+    <%= render partial: 'appointments/fake_payment', locals: { appointment: @appointment } %>
   <% end %>
 </aside>
 

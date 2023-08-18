@@ -55,10 +55,10 @@ class AppointmentsController < ApplicationController
       if @appointment.save
         AppointmentMailer.with(appointment_id: @appointment.id).send_invoice.deliver_later(wait_until: 2.hour.from_now)
         format.turbo_stream do
-          render turbo_stream: turbo_stream.replace(:new_appointment,
-                                                    partial: 'fake_payment',
-                                                    locals: { appointment: @appointment })
-          # FakePaymentServiceJob.set(wait: 1.seconds).perform_later(@appointment)
+          # render turbo_stream: turbo_stream.replace(:new_appointment,
+          #                                           partial: 'fake_payment',
+          #                                           locals: { appointment: @appointment })
+          FakePaymentServiceJob.set(wait:1.second).perform_later(@appointment)
         end
 
       else

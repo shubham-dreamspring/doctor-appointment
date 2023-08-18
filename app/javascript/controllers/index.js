@@ -6,8 +6,6 @@ import {application} from "./application"
 
 import AppointmentController from "./appointment_controller";
 import CountDownController from "./countdown_controller";
-import FakePaymentServiceController from "./fakePaymentServiceController";
 
 application.register("appointment", AppointmentController)
 application.register("countdown", CountDownController)
-application.register("fakePayment",FakePaymentServiceController)

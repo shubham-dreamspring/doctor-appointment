@@ -1,15 +1,17 @@
+require_relative '../services/currency_converter_service'
+
 class AppointmentsController < ApplicationController
   before_action :set_appointment, only: %i[ show edit update destroy ]
-  before_action :set_allowed_currencies, :set_currency_conversion_rate, only: %i[ new create ]
-  include CurrencyConverterHelper
+  before_action :set_allowed_currencies, only: %i[ new create ]
   include PdfGeneratorHelper
+  include UserSession
   # GET /appointments or /appointments.json
   def index
-    unless session['user_id']
+    unless login?
       redirect_to new_user_path
       return
     end
-    @appointments = Appointment.where(user_id: session['user_id'])
+    @appointments = logged_in_user.appointments
   end
 
   # GET /appointments/1 or /appointments/1.json
@@ -30,7 +32,7 @@ class AppointmentsController < ApplicationController
   # GET /appointments/new
   def new
     @appointment = Appointment.new(doctor_id: params[:doctor_id])
-    @time_slots = @appointment.doctor.get_all_available_time_slots
+    @time_slots = DoctorAvailableSlotService.new(@appointment.doctor).all_available_slots
   end
 
   # GET /appointments/1/edit
@@ -39,33 +41,26 @@ class AppointmentsController < ApplicationController
 
   # POST /appointments or /appointments.json
   def create
-    @user = User.find_by(email: user_params[:user_email])
-    if @user.nil?
-      @user = User.create({ name: user_params[:user_name], email: user_params[:user_email] })
-      unless @user.valid?
-        flash[:error] = 'Invalid Email'
-        redirect_to new_appointment_path(params: { doctor_id: params['appointment']['doctor_id'] }), status: :bad_request
-        return
-      end
+    @user = User.find_or_create_by(email: user_params[:user_email], name: user_params[:user_name])
+    unless @user.valid?
+      flash[:error] = 'Invalid Email'
+      redirect_to new_appointment_path(params: { doctor_id: params['appointment']['doctor_id'] }), status: :bad_request
+      return
     end
-    session['user_id'] = @user.id
-    params['appointment']['start_timestamp'] = Time.at(Integer(params['appointment']['start_timestamp'].to_s)).in_time_zone('UTC')
-    params['appointment']['end_timestamp'] = params['appointment']['start_timestamp'] + 1.hour
-    params['appointment']['user_id'] = @user.id
-    doctor = Doctor.find(params['appointment']['doctor_id'])
-    params['appointment']['amount'] = @currency_conversion_rate[params['appointment']['currency']] * doctor.fees
+    login @user.id
+
     @appointment = Appointment.new(appointment_params)
 
     respond_to do |format|
       if @appointment.save
-        mailer = AppointmentMailer.with(appointment_id: @appointment.id).send_invoice.deliver_later(wait_until: 2.hour.from_now)
+        AppointmentMailer.with(appointment_id: @appointment.id).send_invoice.deliver_later(wait_until: 2.hour.from_now)
         format.turbo_stream do
           render turbo_stream: turbo_stream.replace(:new_appointment,
-                                                    partial: 'success',
+                                                    partial: 'fake_payment',
                                                     locals: { appointment: @appointment })
+          # FakePaymentServiceJob.set(wait: 1.seconds).perform_later(@appointment)
         end
-        format.html { redirect_to appointment_url(@appointment), notice: "Appointment was successfully created." }
-        format.json { render :show, status: :created, location: @appointment }
+
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @appointment.errors, status: :unprocessable_entity }
@@ -105,26 +100,16 @@ class AppointmentsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def appointment_params
+    params['appointment']['start_timestamp'] = Time.at(Integer(params['appointment']['start_timestamp'].to_s)).in_time_zone('UTC')
+    params['appointment']['end_timestamp'] = params['appointment']['start_timestamp'] + 1.hour
+    params['appointment']['user_id'] = @user.id
+    doctor = Doctor.find(params['appointment']['doctor_id'])
+    params['appointment']['amount'] = helpers.currency_converter params['appointment']['currency'], doctor.fees
     params.require(:appointment).permit(:doctor_id, :user_id, :end_timestamp, :start_timestamp, :currency, :amount)
   end
 
   def user_params
     params.require(:appointment).permit(:user_name, :user_email)
-  end
-
-  def set_currency_conversion_rate
-    cached_conversion_rates = Rails.cache.read('conversion_rates')
-
-    if !cached_conversion_rates.nil? && cached_conversion_rates[:timestamp].today?
-      @currency_conversion_rate = cached_conversion_rates[:conversion_rates]
-      return
-    end
-    conversion_rates = {}
-    @allowed_currencies.each do |cur|
-      conversion_rates[cur] = currency_converter(base_amount: 1, target_currency: cur)["new_amount"]
-    end
-    Rails.cache.write('conversion_rates', { conversion_rates: conversion_rates, timestamp: Time.now }, expires_in: 1.days)
-    @currency_conversion_rate = conversion_rates
   end
 
   def set_allowed_currencies

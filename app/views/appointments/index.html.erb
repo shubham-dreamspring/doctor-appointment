@@ -1,8 +1,8 @@
-<p style="color: green"><%= notice %></p>
+<!--<p style="color: green"><%#= notice %></p>-->
 
 <h2 class="text-center mt-5 mb-4"> My Appointments</h2>
 
-<div id="appointments" class="d-flex justify-content-center justify-content-md-between">
+<div id="appointments" class="d-flex justify-content-between justify-content-md-between">
   <% if !@appointments.empty? %>
     <% @appointments.each do |appointment| %>
       <%= render appointment %>

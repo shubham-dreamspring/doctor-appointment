@@ -1,9 +1,10 @@
 class DoctorsController < ApplicationController
+  include UserSession
   before_action :set_doctor, only: %i[ show edit update destroy ]
 
   # GET /doctors or /doctors.json
   def index
-    session.delete('user_id')
+    logout
     @doctors = Doctor.all
   end
 

@@ -2,18 +2,19 @@
   <div class="carousel-inner px-3">
     <div class="nav nav-underline" id="nav-tab" role="tablist">
       <% @time_slots.each_slice(3) do |three_time_slots| %>
-        <div class="carousel-item <%= three_time_slots.to_a[0][0].day == Date.today.day ? "active" : "" %>">
+        <div class="carousel-item <%= @time_slots.find_index(three_time_slots.to_a[0]) == 0 ? 'active' : '' %>">
           <div class="row">
             <% three_time_slots.each do |t, _| %>
               <a
-                class="date-slot col p-0 nav-link text-primary <%= t.today? ? 'active' : '' %>"
+                class="date-slot col p-0 nav-link text-primary
+<%= @time_slots.find_index(three_time_slots.to_a[0]) && three_time_slots.to_a[0][0] == t ? 'active' : '' %>"
                 id="nav-<%= t.strftime('%m%d%Y') %>-tab"
                 data-bs-toggle="tab"
                 data-bs-target="<%= "#nav-#{t.strftime('%m%d%Y')}" %>"
                 type="button"
                 role="tab"
                 aria-controls="<%= "nav-#{t.strftime('%m%d%Y')}" %>"
-                aria-selected="<%= t.today? %>">
+                aria-selected="<%= @time_slots.find_index(three_time_slots.to_a[0]) && three_time_slots.to_a[0][0] == t %>">
                 <div class="d-flex flex-column justify-content-center align-items-center">
                   <p class="line-1 m-0"><%= "#{t.day == Date.today.day ? 'Today, ' : '' }#{t.day == Date.today.day + 1 ? 'Tomorrow, ' : ''}#{t.strftime('%a')}, #{t.day.ordinalize}" %></p>
                   <p class="line-2 mb-2"><%= "#{t.strftime('%b')}" %></p>

@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  include UserSession
   before_action :set_user, only: %i[ show edit update destroy ]
 
   # GET /users or /users.json
@@ -24,14 +25,14 @@ class UsersController < ApplicationController
     params['user']['email'] = params['user']['email'].strip
     exist_user = User.find_by email: params['user']['email']
     if exist_user
-      session['user_id'] = exist_user.id
+      login exist_user.id
       redirect_to appointments_path
       return
     end
     @user = User.new(user_params)
     respond_to do |format|
       if @user.save
-        session['user_id'] = @user.id
+        login @user.id
         format.html { redirect_to appointments_path, notice: "User was successfully created." }
         format.json { render :show, status: :created, location: @user }
       else
@@ -62,6 +63,10 @@ class UsersController < ApplicationController
       format.html { redirect_to users_url, notice: "User was successfully destroyed." }
       format.json { head :no_content }
     end
+  end
+
+  def login user_id
+    session['user_id'] = user_id
   end
 
   private

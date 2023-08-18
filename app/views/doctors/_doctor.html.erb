@@ -12,10 +12,10 @@
     <div class="row mt-2 align-items-center">
       <div class="col-7 pe-0" id="doctor-next-slot-div">
         <span class="text-success">Next Available - </span>
-        <% if !doctor.get_next_available_slot %>
+        <% if !doctor.next_available_slot %>
           <span class="text-secondary">No time slot available today</span>
         <% else %>
-          <span class="text-secondary"><%= doctor.get_next_available_slot.in_time_zone('Kolkata').strftime('%I:%M %p') %></span>
+          <span class="text-secondary"><%= doctor.next_available_slot.in_time_zone('Kolkata').strftime('%I:%M %p') %></span>
         <% end %>
 
       </div>

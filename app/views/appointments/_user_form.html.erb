@@ -4,7 +4,12 @@
     <%= form.label :user_name, "Name", class: "form-label" %>
     <%= form.text_field :user_name, class: "form-control mb-4", placeholder: 'Enter Name', required: true %>
     <%= form.label :user_email, "Email", class: "form-label" %>
-    <%= form.email_field :user_email, class: "form-control mb-4", placeholder: 'Enter Email', required: true %>
+    <%= form.email_field :user_email, class: "form-control mb-4",
+                         placeholder: 'Enter Email',
+                         required: true,
+                         oninvalid: "this.setCustomValidity('Please enter an valid email')",
+                         onchange: "this.setCustomValidity('')"
+    %>
     <label class="form-label mb-3">Select Currency</label>
     <div class="grid mb-4">
       <% @allowed_currencies.each do |cur| %>
@@ -12,7 +17,7 @@
                               data: {
                                 action: 'appointment#currencyConverter',
                                 'appointment-cur-param' => cur,
-                                'appointment-amount-param' => @currency_conversion_rate[cur] * @appointment.doctor.fees
+                                'appointment-amount-param' => currency_converter(cur, @appointment.doctor.fees)
                               },
                               class: 'btn-check radio-outline-input' %>
         <%= form.label "currency_#{cur.downcase}", cur, class: "g-col-4 radio-outline-btn" %>

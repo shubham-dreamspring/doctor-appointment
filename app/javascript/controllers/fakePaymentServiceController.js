@@ -9,6 +9,6 @@ export default class extends Controller {
             this.paymentProcessingScreenTarget.classList.add('d-none')
             this.successScreenTarget.classList.remove('d-none')
             this.successScreenTarget.classList.add('d-block')
-        }, 5000)
+        }, 2000)
     }
 }

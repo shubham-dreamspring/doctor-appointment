@@ -1,6 +1,6 @@
 <div class="tab-content" id="nav-tabContent">
   <% @time_slots.each do |t, value| %>
-    <div class="tab-pane fade <%= t.today? ? "show active" : "" %>"
+    <div class="tab-pane fade <%= @time_slots.keys[0] == t ? "show active" : "" %>"
          id="nav-<%= t.strftime('%m%d%Y') %>"
          role="tabpanel"
          aria-labelledby="nav-<%= t.strftime('%m%d%Y') %>-tab"

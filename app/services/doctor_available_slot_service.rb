@@ -68,8 +68,7 @@ class DoctorAvailableSlotService
   end
 
   def upcoming_appointment_dates
-    sql_query = "SELECT start_timestamp FROM appointments WHERE start_timestamp >= current_timestamp and doctor_id = #{@doctor.id} ORDER BY start_timestamp;"
-    appointment_booked = Appointment.find_by_sql(sql_query)
+    appointment_booked = Appointment.where("start_timestamp >= :current_timestamp and doctor_id = :doc_id", doc_id: @doctor.id, current_timestamp: Time.now.in_time_zone('UTC')).order(:start_timestamp)
     appointment_booked_dates = []
     appointment_booked.each { |row| appointment_booked_dates << row[:start_timestamp].in_time_zone('Kolkata') }
     appointment_booked_dates

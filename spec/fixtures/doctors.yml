@@ -1,0 +1,9 @@
+one:
+  id: 1
+  name: Dr. test
+  address: Stanford University
+  image_url: doctor1_image.png
+  fees: 12
+  busy_slots: [ '07:30 1' ]
+  start_time: '06:30'
+  end_time: '10:30'

@@ -5,11 +5,10 @@ require 'json'
 class CurrencyConverterService
 
   def self.convert_currency_api
-    url = URI("http://api.apilayer.com/fixer/latest?base=INR&symbols=INR,USD,EUR")
+    url = URI("http://data.fixer.io/api/latest?access_key=#{ENV['RAPID_API_X_KEY']}&symbols=INR,USD,EUR")
 
     http = Net::HTTP.new(url.host, url.port)
     request = Net::HTTP::Get.new(url)
-    request['apikey'] = ENV['RAPID_API_X_KEY']
 
     JSON.parse(http.request(request).body)['rates']
   end

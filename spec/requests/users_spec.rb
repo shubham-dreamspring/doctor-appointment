@@ -97,7 +97,9 @@ RSpec.describe "/users", type: :request do
 
     it "redirects to the users list" do
       user = User.create! valid_attributes
+
       delete user_url(user)
+
       expect(response).to redirect_to(users_url)
     end
   end

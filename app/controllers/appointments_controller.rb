@@ -35,10 +35,6 @@ class AppointmentsController < ApplicationController
     @time_slots = DoctorAvailableSlotService.new(@appointment.doctor).all_available_slots
   end
 
-  # GET /appointments/1/edit
-  def edit
-  end
-
   # POST /appointments or /appointments.json
   def create
     @user = User.find_or_create_by(email: user_params[:user_email], name: user_params[:user_name])
@@ -55,27 +51,11 @@ class AppointmentsController < ApplicationController
       if @appointment.save
         AppointmentMailer.with(appointment_id: @appointment.id).send_invoice.deliver_later(wait_until: 2.hour.from_now)
         format.turbo_stream do
-          # render turbo_stream: turbo_stream.replace(:new_appointment,
-          #                                           partial: 'fake_payment',
-          #                                           locals: { appointment: @appointment })
           FakePaymentServiceJob.set(wait:1.second).perform_later(@appointment)
         end
 
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @appointment.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PATCH/PUT /appointments/1 or /appointments/1.json
-  def update
-    respond_to do |format|
-      if @appointment.update(appointment_params)
-        format.html { redirect_to appointment_url(@appointment), notice: "Appointment was successfully updated." }
-        format.json { render :show, status: :ok, location: @appointment }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @appointment.errors, status: :unprocessable_entity }
       end
     end

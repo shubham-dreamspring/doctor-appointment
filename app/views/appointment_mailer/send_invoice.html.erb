@@ -27,5 +27,7 @@ height: 500px;
   <br>
   <strong>Paid :- <span style="color: green"><%= "#{@appointment.currency} #{@appointment.amount}" %> </span></strong>
 
+  <p>You can check your details here <a href=<%= appointment_url(@appointment.id) %>>Appointment</a></p>
+
   <h3 style="color:navy;"> Thank you visit again </h3>
 </div>

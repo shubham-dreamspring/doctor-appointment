@@ -1,9 +1,12 @@
 <p style="color: green"><%= notice %></p>
+<div class="row justify-content-center align-items-center" style="height: 90vh">
+  <div style="width: fit-content">
 
-<%= render @appointment %>
+    <%= render @appointment %>
 
-<div>
-  <%= link_to "Edit this appointment", edit_appointment_path(@appointment) %> |
-  <%= link_to "Back to appointments", appointments_path %>
+    <div>
+      <%= link_to "All your appointments", appointments_path, class: ' w-100 btn btn-outline-primary' %>
 
+    </div>
+  </div>
 </div>

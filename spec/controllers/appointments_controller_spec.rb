@@ -59,7 +59,7 @@ RSpec.describe AppointmentsController, type: :controller do
       it "redirects to new user page" do
         get :index
 
-        expect(response).to redirect_to(new_user_path)
+        expect(response).to redirect_to(new_user_path(redirect_back: appointments_path))
       end
     end
   end
@@ -113,17 +113,26 @@ RSpec.describe AppointmentsController, type: :controller do
 
   describe '#show' do
     fixtures(:appointments)
-    it 'it will render show template' do
-      get :show, params: { id: appointments(:one).id }
-    end
-  end
+    context 'if user is not logged in' do
+      it 'should redirect to new_user_path' do
+        get :show, params: { id: appointments(:one).id }
 
-  describe "#destroy" do
-    it "will change appointment with -1" do
-      appointment = Appointment.create! valid_attributes[1]
-      expect {
-        delete :destroy, params: { id: appointment.id }
-      }.to change(Appointment, :count).by(-1)
+        expect(response).to redirect_to(new_user_path(redirect_back: appointment_path(id: appointments(:one).id)))
+      end
+    end
+
+    context 'if user is logged in' do
+      before do
+        login(appointments(:one).user_id)
+      end
+      after do
+        logout
+      end
+      it 'should render show template' do
+        get :show, params: { id: appointments(:one).id }
+
+        expect(response).to render_template :show
+      end
     end
 
   end

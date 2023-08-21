@@ -7,7 +7,7 @@ RSpec.describe User, type: :model do
       expect(user.invalid?).to be_truthy
     end
     it "name can't be empty" do
-      user = User.new({ email:'12.34@fs.com' })
+      user = User.new({ email:'test@test.com' })
       expect(user.invalid?).to be_truthy
     end
     it "email should be valid" do

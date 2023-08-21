@@ -1,23 +1,15 @@
 class UsersController < ApplicationController
   include UserSession
-  before_action :set_user, only: %i[ show edit update destroy ]
 
   # GET /users or /users.json
   def index
     @users = User.all
   end
 
-  # GET /users/1 or /users/1.json
-  def show
-  end
-
   # GET /users/new
   def new
     @user = User.new
-  end
-
-  # GET /users/1/edit
-  def edit
+    @redirect_back = params['redirect_back']
   end
 
   # POST /users or /users.json
@@ -26,9 +18,13 @@ class UsersController < ApplicationController
     exist_user = User.find_by email: params['user']['email']
     if exist_user
       login exist_user.id
-      redirect_to appointments_path
+      authorise_for_appointment_page exist_user
+      return
+    elsif params['user']['redirect_back'] && params['user']['redirect_back'].match?(/appointments\/\d+$/)
+      redirect_to request.referrer, notice: 'You are not authorised', status: :unauthorized
       return
     end
+
     @user = User.new(user_params)
     respond_to do |format|
       if @user.save
@@ -42,42 +38,25 @@ class UsersController < ApplicationController
     end
   end
 
-  # PATCH/PUT /users/1 or /users/1.json
-  def update
-    respond_to do |format|
-      if @user.update(user_params)
-        format.html { redirect_to user_url(@user), notice: "User was successfully updated." }
-        format.json { render :show, status: :ok, location: @user }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /users/1 or /users/1.json
-  def destroy
-    @user.destroy
-
-    respond_to do |format|
-      format.html { redirect_to users_url, notice: "User was successfully destroyed." }
-      format.json { head :no_content }
-    end
-  end
-
-  def login user_id
-    session['user_id'] = user_id
-  end
-
   private
-
-  # Use callbacks to share common setup or constraints between actions.
-  def set_user
-    @user = User.find(params[:id])
-  end
 
   # Only allow a list of trusted parameters through.
   def user_params
     params.require(:user).permit(:name, :email, :role)
   end
+
+  def authorise_for_appointment_page(exist_user)
+    if params['user']['redirect_back'].match?(/appointments$/)
+      redirect_to params['user']['redirect_back']
+    elsif params['user']['redirect_back'].match?(/appointments\/\d+$/)
+      appointment_id = params['user']['redirect_back'].match(/\d+$/)
+      if exist_user.appointments.find_by_id(Integer(appointment_id.to_s))
+        redirect_to params['user']['redirect_back']
+
+      else
+        redirect_to request.referrer, notice: 'You are not authorised', status: :unauthorized
+      end
+    end
+  end
+
 end

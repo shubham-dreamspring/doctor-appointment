@@ -21,12 +21,7 @@
     <%= form.email_field :email, class: "form-control mb-4" %>
   </div>
 
-  <!--  <div>-->
-  <%#= form.radio_button :role, "admin" %>
-  <%#= form.label :role_admin, "Admin" %>
-  <%#= form.radio_button :role, "patient" %>
-  <%#= form.label :role_patient, "Patient" %>
-  <!--  </div>-->
+  <%=form.hidden_field :redirect_back, value: @redirect_back %>
 
   <div>
     <%= form.submit 'Login', class:  "w-100 btn btn-outline-primary" %>

@@ -23,8 +23,6 @@ class DoctorsController < ApplicationController
 
   # POST /doctors or /doctors.json
   def create
-    params['doctor']['start_time'] = Time.parse(params['doctor']['start_time']).in_time_zone('UTC')
-    params['doctor']['end_time'] = Time.parse(params['doctor']['end_time']).in_time_zone('UTC')
     @doctor = Doctor.new(doctor_params)
 
     respond_to do |format|
@@ -51,16 +49,6 @@ class DoctorsController < ApplicationController
     end
   end
 
-  # DELETE /doctors/1 or /doctors/1.json
-  def destroy
-    @doctor.destroy
-
-    respond_to do |format|
-      format.html { redirect_to doctors_url, notice: "Doctor was successfully destroyed." }
-      format.json { head :no_content }
-    end
-  end
-
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -70,6 +58,9 @@ class DoctorsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def doctor_params
+    params['doctor']['start_time'] = Time.parse(params['doctor']['start_time']).in_time_zone('UTC')
+    params['doctor']['end_time'] = Time.parse(params['doctor']['end_time']).in_time_zone('UTC')
+
     params.require(:doctor).permit(:name, :address, :image_url, :fees, :busy_slots, :start_time, :end_time)
   end
 end

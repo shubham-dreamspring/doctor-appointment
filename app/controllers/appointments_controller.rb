@@ -8,7 +8,7 @@ class AppointmentsController < ApplicationController
   # GET /appointments or /appointments.json
   def index
     unless login?
-      redirect_to new_user_path
+      redirect_to new_user_path(redirect_back: appointments_path)
       return
     end
     @appointments = logged_in_user.appointments
@@ -16,13 +16,16 @@ class AppointmentsController < ApplicationController
 
   # GET /appointments/1 or /appointments/1.json
   def show
-
+    unless login?
+      redirect_to new_user_path(redirect_back: appointment_path(id: @appointment.id))
+      return
+    end
     respond_to do |format|
       format.html
       format.json
       format.pdf do
         invoice = render_to_string partial: 'appointment', locals: { appointment: @appointment }
-        render_pdf invoice, filename: "Invoice #{@appointment.id}"
+        render_pdf invoice, filename: "Invoice-#{@appointment.id}"
       end
       format.csv
       format.txt
@@ -51,23 +54,13 @@ class AppointmentsController < ApplicationController
       if @appointment.save
         AppointmentMailer.with(appointment_id: @appointment.id).send_invoice.deliver_later(wait_until: 2.hour.from_now)
         format.turbo_stream do
-          FakePaymentServiceJob.set(wait:1.second).perform_later(@appointment)
+          FakePaymentServiceJob.set(wait: 1.second).perform_later(@appointment)
         end
 
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @appointment.errors, status: :unprocessable_entity }
       end
-    end
-  end
-
-  # DELETE /appointments/1 or /appointments/1.json
-  def destroy
-    @appointment.destroy
-
-    respond_to do |format|
-      format.html { redirect_to appointments_url, notice: "Appointment was successfully cancelled." }
-      format.json { head :no_content }
     end
   end
 

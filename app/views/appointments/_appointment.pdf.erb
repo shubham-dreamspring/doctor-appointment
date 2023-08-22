@@ -13,19 +13,19 @@ height: 500px;
     ">
     Invoice
   </h1>
-  <h2>Appointment Details</h2>
-  <strong>id :- <span style="color: #2c3034"><%= appointment.id %></span></strong>
+  <h2><%= t('appointment_details') %></h2>
+  <strong><%= t('id') %> <span style="color: #2c3034"><%= appointment.id %></span></strong>
   <br/>
-  <strong>Doctor Name :- <span style="color: #2c3034"><%= appointment.doctor.name %></span></strong>
+  <strong><%= t('doctor_name') %> <span style="color: #2c3034"><%= appointment.doctor.name %></span></strong>
   <br/>
-  <strong>Date :-
+  <strong><%= t('date') %>
     <span style="color: #2c3034"><%= "#{appointment.start_timestamp.in_time_zone('Kolkata').today? ? 'Today' : appointment.start_timestamp.in_time_zone('Kolkata').strftime('%a') }, #{appointment.start_timestamp.in_time_zone('Kolkata').day.ordinalize} #{appointment.start_timestamp.in_time_zone('Kolkata').strftime('%b')}" %></span></strong>
   <br/>
-  <strong>Time :-
+  <strong><%= t('time') %>
     <span style="color: #2c3034"><%= appointment.start_timestamp.in_time_zone('Kolkata').strftime('%I : %M %p') %></span></strong>
   <br>
   <br>
-  <strong>Paid :- <span style="color: green"><%= "#{appointment.currency} #{appointment.amount}" %> </span></strong>
+  <strong><%= t('paid') %> <span style="color: green"><%= "#{appointment.currency} #{appointment.amount}" %> </span></strong>
 
-  <h3 style="color:navy;"> Thank you visit again </h3>
+  <h3 style="color:navy;"> <%= t('thank_you_visit_again') %> </h3>
 </div>

@@ -1,7 +1,7 @@
 <nav>
   <div class="row h-100 align-items-center justify-content-between justify-content-sm-center">
     <div class="col-2 col-md-2 text-end">
-      <a href="/" class="text-decoration-none text-black"><strong class="fs-5">Medi App</strong></a>
+      <a href="/" class="text-decoration-none text-black"><strong class="fs-5"><%= t('medi_app') %></strong></a>
     </div>
     <div class="col-9">
       <span class="d-none d-md-inline me-3">|</span>
@@ -11,7 +11,7 @@
         <% else %>
           <%= image_tag 'calender.svg', class: 'mr-1' %>
         <% end %>
-        <span class="d-inline-block ms-1">My Appointments</span>
+        <span class="d-inline-block ms-1"><%= t('my_appointments') %></span>
       </a>
     </div>
   </div>

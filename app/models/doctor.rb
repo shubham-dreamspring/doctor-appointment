@@ -14,7 +14,7 @@ class Doctor < ApplicationRecord
 
   def referenced_by_no_appointment
     unless appointments.empty?
-      errors.add(:base, 'Appointments is present')
+      errors.add(:base, I18n.t('appointments_is_present'))
       throw :abort
     end
   end

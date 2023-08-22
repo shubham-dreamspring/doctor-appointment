@@ -1,17 +1,17 @@
 <%= turbo_stream_from(:appointment_created) %>
 <div class="page2-wrapper d-none justify-content-center align-items-md-center" data-appointment-target="page2" id='appointment_user_form'>
   <aside class="page2">
-    <h4 class="text-center">Add Details 🧑🏻</h4>
-    <%= form.label :user_name, "Name", class: "form-label" %>
-    <%= form.text_field :user_name, class: "form-control mb-4", placeholder: 'Enter Name', required: true %>
-    <%= form.label :user_email, "Email", class: "form-label" %>
+    <h4 class="text-center"><%= t('add_details')%> 🧑🏻</h4>
+    <%= form.label :user_name, t('name'), class: "form-label" %>
+    <%= form.text_field :user_name, class: "form-control mb-4", placeholder: t('enter_name'), required: true %>
+    <%= form.label :user_email, t('email'), class: "form-label" %>
     <%= form.email_field :user_email, class: "form-control mb-4",
-                         placeholder: 'Enter Email',
+                         placeholder: t('enter_email'),
                          required: true,
                          oninvalid: "this.setCustomValidity('Please enter an valid email')",
                          onchange: "this.setCustomValidity('')"
     %>
-    <label class="form-label mb-3">Select Currency</label>
+    <label class="form-label mb-3"><%= t('select_currency') %></label>
     <div class="grid mb-4">
       <% @allowed_currencies.each do |cur| %>
         <%= form.radio_button :currency, cur,

@@ -11,9 +11,9 @@
     </div>
     <div class="row mt-2 align-items-center">
       <div class="col-7 pe-0" id="doctor-next-slot-div">
-        <span class="text-success">Next Available - </span>
+        <span class="text-success"><%= t('next_available') %> -  </span>
         <% if !doctor.next_available_slot %>
-          <span class="text-secondary">No time slot available today</span>
+          <span class="text-secondary"><%= t('no_time_slot_available_today') %></span>
         <% else %>
           <span class="text-secondary"><%= doctor.next_available_slot.in_time_zone('Kolkata').strftime('%I:%M %p') %></span>
         <% end %>

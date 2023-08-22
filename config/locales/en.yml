@@ -1,33 +1,68 @@
-# Files in the config/locales directory are used for internationalization
-# and are automatically loaded by Rails. If you want to use locales other
-# than English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t "hello"
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t("hello") %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# The following keys must be escaped otherwise they will not be retrieved by
-# the default I18n backend:
-#
-# true, false, on, off, yes, no
-#
-# Instead, surround them with single quotes.
-#
-# en:
-#   "true": "foo"
-#
-# To learn more, please read the Rails Internationalization guide
-# available at https://guides.rubyonrails.org/i18n.html.
-
 en:
   hello: "Hello world"
+  user_was_successfully_created: "User was successfully created."
+  you_are_not_authorised: "You are not authorised"
+  err_invalid_email: "Invalid Email"
+  doctor_was_successfully_updated: "Doctor was successfully updated."
+  doctor_was_successfully_created: "Doctor was successfully created."
+  appointments_is_present: "Appointments is present"
+  your_consultation_details: "Your Consultation Details"
+  today: "Today"
+  cancel: "Cancel"
+  download_your_invoice: "Download your Invoice"
+  amount_paid: "Amount Paid"
+  appointment_details: "Appointment Details"
+  id: "id"
+  doctor_name: "Doctor Name"
+  patient_name: "Patient Name"
+  date: "Date"
+  time: "Time"
+  paid: "Paid"
+  thank_you_visit_again: "Thank you visit again"
+  all_your_appointments: "All your appointments"
+  select_a_date: "Select a date"
+  high_demand_display_message: "Due to high demand, it is difficult to reschedule appointments. Please book your slot carefully!"
+  book_appointment: "Book Appointment"
+  no_appointments_yet: "No appointments yet !!"
+  add_details: "Add Details"
+  select_currency: "Select Currency"
+  name: "Name"
+  email: "Email"
+  enter_email: "Enter Email"
+  enter_name: "Enter Name"
+  select_a_time_for: "Select a time for"
+  no_available_time_slot: "No available time slot"
+  congratulations: "Congratulations"
+  appointment_booked: "Appointment Booked"
+  meeting_starts_in: "Meeting starts in"
+  my_appointments: "My Appointments"
+  payment_processing_message: "Hold Tight! We are processing Payment"
+  days: "Days"
+  hours: "Hours"
+  mins: "Mins"
+  secs: "Secs"
+  next_available: "Next Available"
+  no_time_slot_available_today: "No time slot available today"
+  new_doctor: "New doctor"
+  edit_this_doctor: "Edit this doctor"
+  back_to_doctors: "Back to doctors"
+  destroy_this_doctor: "Destroy this doctor"
+  medi_app: "Medi App"
+  you_can_check_your_details_here: "You can check your details here"
+  appointment: "Appointment"
+  currency: "Currency"
+  amount: "Amount"
+  doctor_appointment: "Doctor Appointment"
+  new_user: "New user"
+  show_this_user: "Show this user"
+  prohibited_this_user_from_being_saved: "prohibited this user from being saved:"
+  role: "Role"
+  login: "Login"
+  users: "Users"
+  address: "address"
+  image_url: "image_url"
+  fees: "fees"
+  start_time: "start_time"
+  end_time: "end_time"
+  show_this_doctor: "Show this doctor"
+  my_doctors: "My Doctors"

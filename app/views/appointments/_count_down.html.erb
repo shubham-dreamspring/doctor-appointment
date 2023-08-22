@@ -5,7 +5,7 @@
       <span data-countdown-target="firstDayDigit"><%= (end_time.day / 10).to_s %></span>
       <span data-countdown-target="secondDayDigit"><%= (end_time.day % 10).to_s %></span>
     </div>
-    <small>Days</small>
+    <small><%= t('days') %></small>
   </div>
   <strong>:</strong>
   <div>
@@ -13,7 +13,7 @@
       <span data-countdown-target="firstHourDigit">0</span>
       <span data-countdown-target="secondHourDigit">0</span>
     </div>
-    <small>Hours</small>
+    <small><%= t('hours') %></small>
   </div>
   <strong>:</strong>
   <div>
@@ -21,7 +21,7 @@
       <span data-countdown-target="firstMinDigit">0</span>
       <span data-countdown-target="secondMinDigit">0</span>
     </div>
-    <small>Mins</small>
+    <small><%= t('mins') %></small>
   </div>
   <strong>:</strong>
   <div>
@@ -29,6 +29,6 @@
       <span data-countdown-target="firstSecDigit">0</span>
       <span data-countdown-target="secondSecDigit">0</span>
     </div>
-    <small>Secs</small>
+    <small><%= t('secs') %></small>
   </div>
 </div>

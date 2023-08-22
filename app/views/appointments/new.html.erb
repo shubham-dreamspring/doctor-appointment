@@ -3,7 +3,7 @@
     <div data-appointment-target="page1" class="page1 m-auto">
       <div class="mb-2">
         <%= image_tag 'calender_outline.svg', class: 'me-2 mb-1' %>
-        <span class="fw-semibold">Select a date</span>
+        <span class="fw-semibold"><%= t('select_a_date') %></span>
       </div>
       <br>
 
@@ -12,9 +12,8 @@
       <%= render partial: 'time_slots', locals: { form: form } %>
       <%= form.hidden_field :doctor_id, value: params[:doctor_id] %>
       <div class="text-center" id="book-appointment-btn-div">
-        <span>Due to high demand, it is difficult to reschedule appointments. Please book your slot carefully!</span>
-        <button data-appointment-target="bookButton" data-action="click->appointment#page_switch" type="button" class="btn btn-secondary w-100" disabled>Book
-          Appointment
+        <span><%= t('high_demand_display_message') %></span>
+        <button data-appointment-target="bookButton" data-action="click->appointment#page_switch" type="button" class="btn btn-secondary w-100" disabled><%= t('book_appointment') %>
         </button>
       </div>
     </div>

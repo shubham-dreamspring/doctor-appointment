@@ -21,7 +21,7 @@ class UsersController < ApplicationController
       authorise_for_appointment_page exist_user
       return
     elsif params['user']['redirect_back'] && params['user']['redirect_back'].match?(/appointments\/\d+$/)
-      redirect_to request.referrer, notice: 'You are not authorised', status: :unauthorized
+      redirect_to request.referrer, notice: I18n.t('you_are_not_authorised'), status: :unauthorized
       return
     end
 
@@ -29,7 +29,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.save
         login @user.id
-        format.html { redirect_to appointments_path, notice: "User was successfully created." }
+        format.html { redirect_to appointments_path, notice: I18n.t('user_was_successfully_created') }
         format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -54,7 +54,7 @@ class UsersController < ApplicationController
         redirect_to params['user']['redirect_back']
 
       else
-        redirect_to request.referrer, notice: 'You are not authorised', status: :unauthorized
+        redirect_to request.referrer, notice: I18n.t('you_are_not_authorised'), status: :unauthorized
       end
     end
   end

@@ -8,7 +8,7 @@
       <div class="mb-3">
         <%= image_tag 'clock.svg', class: 'me-3' %>
         <span class="fw-semibold">
-          Select a time for<span class="text-primary">
+          <%= t('select_a_time_for') %><span class="text-primary">
               <%= "#{t.strftime('%A, ')}#{t.day.ordinalize}#{t.strftime(', %B')}" %>
             </span>
         </span>
@@ -22,7 +22,7 @@
             <% end %>
           <% end %>
         <% else %>
-          <span class="g-col-12 text-secondary"> No available time slot</span>
+          <span class="g-col-12 text-secondary"> <%= t('no_available_time_slot') %></span>
         <% end %>
       </div>
 

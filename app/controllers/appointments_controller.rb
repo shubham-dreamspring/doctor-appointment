@@ -42,7 +42,7 @@ class AppointmentsController < ApplicationController
   def create
     @user = User.find_or_create_by(email: user_params[:user_email], name: user_params[:user_name])
     unless @user.valid?
-      flash[:error] = 'Invalid Email'
+      flash[:error] = I18n.t('err_invalid_email')
       redirect_to new_appointment_path(params: { doctor_id: params['appointment']['doctor_id'] }), status: :bad_request
       return
     end

@@ -16,22 +16,37 @@ RSpec.describe DoctorAvailableSlotService do
 
   describe "#all_available_slots", type: :helper do
     context 'doctor has no appointment' do
-
       it "should return all available slots" do
-        available_slots = DoctorAvailableSlotService.new(doctors(:two)).all_available_slots
+        no_of_days = 8
+        doctor = doctors(:two)
 
-        expect(available_slots.keys[0]).to eql Date.new(freeze_time.year, freeze_time.month, freeze_time.day)
-        expect(available_slots[available_slots.keys[0]].size).to eql 3
-        expect(available_slots[available_slots.keys[0]][0]).to eql freeze_time + 1.minute
+        available_slots = DoctorAvailableSlotService.new(doctor, no_of_days).all_available_slots
+        first_day_with_available_slots = available_slots.keys.first
+        first_slot_available = available_slots[first_day_with_available_slots].first
+
+        expect(available_slots.size).to eql no_of_days
+        expect(first_day_with_available_slots).to eql Date.new(freeze_time.year, freeze_time.month, freeze_time.day)
+        expect(first_slot_available).to be > freeze_time
       end
     end
 
     context "if doctor has appointments" do
       it "should exclude all the appointments" do
-        available_slots = DoctorAvailableSlotService.new(doctors(:one)).all_available_slots
+        doctor = doctors(:one)
+        appointment = doctor.appointments.create!({
+                                                    doctor_id: 1,
+                                                    user_id: 2,
+                                                    start_timestamp: '2023-02-01 06:30:00 UTC',
+                                                    end_timestamp: '2023-02-01 07:30:00 UTC',
+                                                    currency: 'INR',
+                                                    amount: 50,
+                                                  })
 
-        expect(available_slots.keys[0]).to eql Date.new(freeze_time.year, freeze_time.month, freeze_time.day)
-        expect(available_slots[available_slots.keys[0]].size).to eql 2
+        available_slots = DoctorAvailableSlotService.new(doctor).all_available_slots
+        first_day_with_available_slots = available_slots.keys.first
+
+        expect(first_day_with_available_slots).to eql Date.new(freeze_time.year, freeze_time.month, freeze_time.day)
+        expect(available_slots.values.include?(appointment.start_timestamp)).to be_falsey
 
       end
     end
@@ -41,17 +56,31 @@ RSpec.describe DoctorAvailableSlotService do
   describe '#next_available_slot' do
     context 'doctor has no appointment' do
       it "should return next available slot" do
-        next_slot = DoctorAvailableSlotService.new(doctors(:two)).next_available_slot
+        doctor = doctors(:two)
 
-        expect(next_slot.to_i).to be (freeze_time + 1.minute).to_i
+        next_slot = DoctorAvailableSlotService.new(doctor).next_available_slot
+
+        expect(next_slot).to be > freeze_time
+        expect(next_slot.in_time_zone('UTC').hour).to be doctor.start_time.hour
+        expect(next_slot.in_time_zone('UTC').min).to be doctor.start_time.min
       end
     end
 
     context "if doctor has appointments" do
       it "should exclude all the booked appointment timing" do
-        next_slot = DoctorAvailableSlotService.new(doctors(:one)).next_available_slot
+        doctor = doctors(:one)
+        appointment = doctor.appointments.create!({
+                                                    doctor_id: 1,
+                                                    user_id: 2,
+                                                    start_timestamp: '2023-02-01 06:30:00 UTC',
+                                                    end_timestamp: '2023-02-01 07:30:00 UTC',
+                                                    currency: 'INR',
+                                                    amount: 50,
+                                                  })
 
-        expect(next_slot.to_i).to be > (doctors(:one).appointments.last.end_timestamp).to_i
+        next_available_slot = DoctorAvailableSlotService.new(doctor).next_available_slot
+
+        expect(next_available_slot).to be > appointment.start_timestamp
       end
     end
   end

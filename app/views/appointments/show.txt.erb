@@ -1,6 +1,6 @@
 <%= "id:- #{@appointment.id}\n" %>
 <%= "patient_name:- #{@appointment.user.name}\n" %>
 <%= "doctor_name:- #{@appointment.doctor.name}\n" %>
-<%= "appointment_time:- #{@appointment.start_timestamp.in_time_zone('Kolkata')}\n" %>
+<%= "appointment_time:- #{@appointment.start_timestamp}\n" %>
 <%= "currency:- #{@appointment.currency}\n" %>
 <%= "amount:- #{@appointment.amount}\n" %>

@@ -1,6 +1,6 @@
 <%= "#{t('id')}:- #{@appointment.id}\n" %>
 <%= "#{t('patient_name')}:- #{@appointment.user.name}\n" %>
 <%= "#{t('doctor_name')}:- #{@appointment.doctor.name}\n" %>
-<%= "#{t('time')}:- #{@appointment.start_timestamp.in_time_zone('Kolkata')}\n" %>
+<%= "#{t('time')}:- #{@appointment.start_timestamp}\n" %>
 <%= "#{t('currency')}:- #{@appointment.currency}\n" %>
 <%= "#{t('amount')}:- #{@appointment.amount}\n" %>

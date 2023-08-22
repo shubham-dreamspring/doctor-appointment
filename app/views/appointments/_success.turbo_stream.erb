@@ -5,9 +5,9 @@
         <%= image_tag 'success_green_tick.svg', class: 'd-block mt-4' %>
         <p class="h4 text-success fw-bold mb-3"><%= t('congratulations') %></p>
         <span style="font-size: 18px" class="mb-4"><%= t('appointment_booked') %> </span>
-        <span id="success-appointment-datetime-span" class="mb-3"><%= image_tag "success_calendar.svg", class: 'me-2' %> <%= appointment.start_timestamp.in_time_zone('Kolkata').today? ? 'Today, ' : appointment.start_timestamp.in_time_zone('Kolkata').strftime('%A, ') %><%= appointment.start_timestamp.in_time_zone('Kolkata').day.ordinalize %><%= appointment.start_timestamp.in_time_zone('Kolkata').strftime(' %B, %I:%M %p') %></span>
+        <span id="success-appointment-datetime-span" class="mb-3"><%= image_tag "success_calendar.svg", class: 'me-2' %> <%= appointment.start_timestamp.today? ? 'Today, ' : appointment.start_timestamp.strftime('%A, ') %><%= appointment.start_timestamp.day.ordinalize %><%= appointment.start_timestamp.strftime(' %B, %I:%M %p') %></span>
         <span style="color:#686868" class="mb-2"><%= t('meeting_starts_in') %></span>
-        <%= render partial: 'appointments/count_down', locals: { end_time: appointment.start_timestamp.in_time_zone('Kolkata') } %>
+        <%= render partial: 'appointments/count_down', locals: { end_time: appointment.start_timestamp } %>
       </div>
       <a href='<%= appointments_path %>' class='w-100 btn btn-outline-primary mt-3'>
         <%= t('my_appointments') %>  <%= image_tag 'right_icon.svg' %>

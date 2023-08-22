@@ -19,10 +19,10 @@ height: 500px;
   <strong><%= t('doctor_name') %> <span style="color: #2c3034"><%= appointment.doctor.name %></span></strong>
   <br/>
   <strong><%= t('date') %>
-    <span style="color: #2c3034"><%= "#{appointment.start_timestamp.in_time_zone('Kolkata').today? ? 'Today' : appointment.start_timestamp.in_time_zone('Kolkata').strftime('%a') }, #{appointment.start_timestamp.in_time_zone('Kolkata').day.ordinalize} #{appointment.start_timestamp.in_time_zone('Kolkata').strftime('%b')}" %></span></strong>
+    <span style="color: #2c3034"><%= "#{appointment.start_timestamp.today? ? 'Today' : appointment.start_timestamp.strftime('%a') }, #{appointment.start_timestamp.day.ordinalize} #{appointment.start_timestamp.strftime('%b')}" %></span></strong>
   <br/>
   <strong><%= t('time') %>
-    <span style="color: #2c3034"><%= appointment.start_timestamp.in_time_zone('Kolkata').strftime('%I : %M %p') %></span></strong>
+    <span style="color: #2c3034"><%= appointment.start_timestamp.strftime('%I : %M %p') %></span></strong>
   <br>
   <br>
   <strong><%= t('paid') %> <span style="color: green"><%= "#{appointment.currency} #{appointment.amount}" %> </span></strong>

@@ -58,9 +58,6 @@ class DoctorsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def doctor_params
-    params['doctor']['start_time'] = Time.parse(params['doctor']['start_time']).in_time_zone('UTC')
-    params['doctor']['end_time'] = Time.parse(params['doctor']['end_time']).in_time_zone('UTC')
-
     params.require(:doctor).permit(:name, :address, :image_url, :fees, :busy_slots, :start_time, :end_time)
   end
 end

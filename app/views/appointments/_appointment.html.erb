@@ -11,12 +11,12 @@
   <p class="mt-3 text-secondary">🗓 <%= t('your_consultation_details') %></p>
   <p>
     <%= image_tag 'calender_outline.svg', size: 17 %>
-    <span class="fw-semibold"><%= "#{appointment.start_timestamp.in_time_zone('Kolkata').today? ? t('today') : appointment.start_timestamp.in_time_zone('Kolkata').strftime('%a') }, #{appointment.start_timestamp.in_time_zone('Kolkata').day.ordinalize} #{appointment.start_timestamp.in_time_zone('Kolkata').strftime('%b')}" %></span>
+    <span class="fw-semibold"><%= "#{appointment.start_timestamp.today? ? t('today') : appointment.start_timestamp.strftime('%a') }, #{appointment.start_timestamp.day.ordinalize} #{appointment.start_timestamp.strftime('%b')}" %></span>
     <span class="text-secondary mx-1">|</span>
     <%= image_tag 'clock.svg', size: 17 %>
-    <span class="fw-semibold ms-1"> <%= appointment.start_timestamp.in_time_zone('Kolkata').strftime('%I : %M %p') %></span>
+    <span class="fw-semibold ms-1"> <%= appointment.start_timestamp.strftime('%I : %M %p') %></span>
   </p>
-  <% if appointment.start_timestamp.in_time_zone('Kolkata') - Time.now.in_time_zone('Kolkata') >= 30.minute %>
+  <% if appointment.start_timestamp - Time.current >= 30.minute %>
     <%= button_to t('cancel'), appointment, method: :delete, class: 'w-100 btn btn-outline-danger' %>
   <% end %>
   <p class="mt-5" style="color: #1C1C1C"><%= t('download_your_invoice') %></p>

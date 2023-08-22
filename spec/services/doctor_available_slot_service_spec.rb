@@ -61,8 +61,8 @@ RSpec.describe DoctorAvailableSlotService do
         next_slot = DoctorAvailableSlotService.new(doctor).next_available_slot
 
         expect(next_slot).to be > freeze_time
-        expect(next_slot.in_time_zone('UTC').hour).to be doctor.start_time.hour
-        expect(next_slot.in_time_zone('UTC').min).to be doctor.start_time.min
+        expect(next_slot.hour).to be doctor.start_time.hour
+        expect(next_slot.min).to be doctor.start_time.min
       end
     end
 

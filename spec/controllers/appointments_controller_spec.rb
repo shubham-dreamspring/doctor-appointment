@@ -12,16 +12,16 @@ RSpec.describe AppointmentsController, type: :controller do
        doctor_id: 1,
        user_name: users(:one).name,
        user_email: users(:one).email,
-       end_timestamp: Time.now,
-       start_timestamp: Time.now.to_i,
+       end_timestamp: Time.current,
+       start_timestamp: Time.current.to_i,
        currency: 'INR',
        amount: 50
      },
      {
        doctor_id: 1,
        user_id: users(:one).id,
-       end_timestamp: Time.now,
-       start_timestamp: Time.now,
+       end_timestamp: Time.current,
+       start_timestamp: Time.current,
        currency: 'INR',
        amount: 50
      }
@@ -32,7 +32,7 @@ RSpec.describe AppointmentsController, type: :controller do
     {
       doctor_id: 1,
       user_id: 2,
-      start_timestamp: Time.now,
+      start_timestamp: Time.current,
       currency: 'INR',
       amount: 50
     }

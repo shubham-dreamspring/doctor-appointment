@@ -6,7 +6,7 @@ class DoctorAvailableSlotService
 
   def all_available_slots
     time_slots = {}
-    date = Date.today
+    date = Date.current
     @no_of_days.times do
       time_slots_for_day = available_slots_on_a_date_in_future(date)
       time_slots[date] = time_slots_for_day unless time_slots_for_day.empty?
@@ -16,17 +16,17 @@ class DoctorAvailableSlotService
   end
 
   def next_available_slot
-    next_available_slot = available_slots_on_a_date_in_future(Date.today)
+    next_available_slot = available_slots_on_a_date_in_future(Date.current)
     next_available_slot.empty? ? nil : next_available_slot.first
   end
 
   private
 
   def general_day_time_slots
-    start_time = @doctor.start_time.in_time_zone('Kolkata')
-    end_time = @doctor.end_time.in_time_zone('Kolkata')
+    start_time = @doctor.start_time
+    end_time = @doctor.end_time
     break_start_time = Time.parse('2000-01-01 ' + @doctor.busy_slots[0].split[0] + " UTC")
-    break_start_time = break_start_time.in_time_zone('Kolkata')
+    break_start_time = break_start_time.localtime
     break_end_time = break_start_time + @doctor.busy_slots[0].split[1].to_f.hour
     general_time_slots = []
 
@@ -42,10 +42,7 @@ class DoctorAvailableSlotService
   end
 
   def upcoming_appointment_dates
-    appointment_booked = Appointment.where("start_timestamp >= :current_timestamp and doctor_id = :doc_id", doc_id: @doctor.id, current_timestamp: Time.now.in_time_zone('UTC')).order(:start_timestamp)
-    appointment_booked_dates = []
-    appointment_booked.each { |row| appointment_booked_dates << row[:start_timestamp].in_time_zone('Kolkata') }
-    appointment_booked_dates
+    @doctor.appointments.where("start_timestamp >= :current_timestamp", current_timestamp: Time.current.utc).order(:start_timestamp).pluck(:start_timestamp)
   end
 
   def available_slots_on_a_date_in_future(date)
@@ -59,12 +56,12 @@ class DoctorAvailableSlotService
         appointment_booked_array.delete_at index_in_booked_appointment
         next
       end
-      time_slots_for_day << time_at_given_slot if (time_at_given_slot > Time.now)
+      time_slots_for_day << time_at_given_slot if (time_at_given_slot > Time.current)
     end
     time_slots_for_day
   end
 
   def parse_time(date = Date.today, time_slot)
-    Time.new(date.year, date.month, date.day, time_slot.hour, time_slot.min, 0, "+05:30")
+    Time.local(date.year, date.month, date.day, time_slot.hour, time_slot.min, 0)
   end
 end

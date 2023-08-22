@@ -73,7 +73,7 @@ class AppointmentsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def appointment_params
-    params['appointment']['start_timestamp'] = Time.at(Integer(params['appointment']['start_timestamp'].to_s)).in_time_zone('UTC')
+    params['appointment']['start_timestamp'] = Time.at(Integer(params['appointment']['start_timestamp'].to_s)).utc
     params['appointment']['end_timestamp'] = params['appointment']['start_timestamp'] + 1.hour
     params['appointment']['user_id'] = @user.id
     doctor = Doctor.find(params['appointment']['doctor_id'])

@@ -15,7 +15,7 @@
         <% if !doctor.next_available_slot %>
           <span class="text-secondary"><%= t('no_time_slot_available_today') %></span>
         <% else %>
-          <span class="text-secondary"><%= doctor.next_available_slot.in_time_zone('Kolkata').strftime('%I:%M %p') %></span>
+          <span class="text-secondary"><%= doctor.next_available_slot.strftime('%I:%M %p') %></span>
         <% end %>
 
       </div>

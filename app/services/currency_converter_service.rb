@@ -25,7 +25,7 @@ class CurrencyConverterService
   def self.set_cache_conversion_rate
     conversion_rates = convert_currency_api
 
-    Rails.cache.write('conversion_rates', { conversion_rates: conversion_rates, timestamp: Time.now }, expires_in: 1.days)
+    Rails.cache.write('conversion_rates', { conversion_rates: conversion_rates, timestamp: Time.current }, expires_in: 1.days)
     conversion_rates
   end
 

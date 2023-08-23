@@ -17,7 +17,7 @@ RSpec.describe DoctorAvailableSlotService do
   describe "#all_available_slots", type: :helper do
     context 'doctor has no appointment' do
       it "should return all available slots" do
-        no_of_days = 8
+        no_of_days = 4
         doctor = doctors(:two)
 
         available_slots = DoctorAvailableSlotService.new(doctor, no_of_days).all_available_slots
@@ -48,6 +48,20 @@ RSpec.describe DoctorAvailableSlotService do
         expect(first_day_with_available_slots).to eql Date.new(freeze_time.year, freeze_time.month, freeze_time.day)
         expect(available_slots.values.include?(appointment.start_timestamp)).to be_falsey
 
+      end
+    end
+
+    context("if sunday is off for the doctor") do
+      it("should not return sunday slots") do
+        no_of_days = 7
+        no_of_sundays_in_between = 1
+        next_occurring_sunday = Date.current.next_occurring(:sunday)
+        doctor = doctors(:two)
+
+        available_slots = DoctorAvailableSlotService.new(doctor, no_of_days).all_available_slots
+
+        expect(available_slots.size).to eql no_of_days - no_of_sundays_in_between
+        expect(available_slots.keys.include?(next_occurring_sunday)).to be_falsey
       end
     end
 
@@ -82,6 +96,24 @@ RSpec.describe DoctorAvailableSlotService do
 
         expect(next_available_slot).to be > appointment.start_timestamp
       end
+    end
+  end
+
+  context("if sunday is off for the doctor") do
+
+    around do |example|
+      next_sunday_freeze_time = Time.current.next_occurring(:sunday)
+      Timecop.freeze(next_sunday_freeze_time) do
+        example.run
+      end
+    end
+
+    it("should return nil") do
+      doctor = doctors(:two)
+
+      next_available_slot = DoctorAvailableSlotService.new(doctor).next_available_slot
+
+      expect(next_available_slot).to be_nil
     end
   end
 end

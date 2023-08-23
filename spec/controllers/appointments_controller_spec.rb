@@ -18,7 +18,7 @@ RSpec.describe AppointmentsController, type: :controller do
        amount: 50
      },
      {
-       doctor_id: 1,
+       doctor_id: doctors(:unavailable_doctor).id,
        user_id: users(:one).id,
        end_timestamp: Time.current,
        start_timestamp: Time.current,
@@ -99,6 +99,14 @@ RSpec.describe AppointmentsController, type: :controller do
         expect(FakePaymentServiceJob).to receive_message_chain(:set, :perform_later)
 
         post :create, params: { appointment: valid_attributes[0] }, as: :turbo_stream
+      end
+
+      context "if doctor is unavailable" do
+        it "should return bad request status" do
+          post :create, params: { appointment: valid_attributes[1] }, as: :turbo_stream
+
+          expect(response).to have_http_status :bad_request
+        end
       end
     end
 

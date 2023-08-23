@@ -47,8 +47,13 @@ class AppointmentsController < ApplicationController
       return
     end
     login @user.id
-
     @appointment = Appointment.new(appointment_params)
+
+    unless @appointment.doctor.available
+      flash[:error] = I18n.t('err_doctor_is_not_available')
+      redirect_to new_appointment_path(params: { doctor_id: params['appointment']['doctor_id'] }), status: :bad_request
+      return
+    end
 
     respond_to do |format|
       if @appointment.save
@@ -88,5 +93,4 @@ class AppointmentsController < ApplicationController
   def set_allowed_currencies
     @allowed_currencies = %w[EUR USD INR]
   end
-
 end

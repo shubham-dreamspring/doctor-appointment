@@ -49,12 +49,6 @@ class AppointmentsController < ApplicationController
     login @user.id
     @appointment = Appointment.new(appointment_params)
 
-    unless @appointment.doctor.available
-      flash[:error] = I18n.t('err_doctor_is_not_available')
-      redirect_to new_appointment_path(params: { doctor_id: params['appointment']['doctor_id'] }), status: :bad_request
-      return
-    end
-
     respond_to do |format|
       if @appointment.save
         AppointmentMailer.with(appointment_id: @appointment.id).send_invoice.deliver_later(wait_until: 2.hour.from_now)
@@ -63,7 +57,7 @@ class AppointmentsController < ApplicationController
         end
 
       else
-        format.html { render :new, status: :unprocessable_entity }
+        format.html { redirect_to request.referrer, notice: @appointment.errors.messages, status: :unprocessable_entity }
         format.json { render json: @appointment.errors, status: :unprocessable_entity }
       end
     end

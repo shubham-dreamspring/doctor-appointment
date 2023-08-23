@@ -14,7 +14,15 @@
 <%= render 'nav' %>
 <% flash.each do |type, msg| %>
   <div class="alert alert-warning" role="alert">
-    <%= msg %>
+    <% if msg&.values %>
+      <ul>
+        <% msg.values.flatten.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    <% else %>
+      <%= msg %>
+    <% end %>
   </div>
 <% end %>
 <%= yield %>

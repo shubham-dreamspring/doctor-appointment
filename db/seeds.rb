@@ -9,28 +9,30 @@ Doctor.create([
                 { name: "Dr. Hynes",
                   address: "Stanford University",
                   image_url: "doctor1_image.png",
+                  city: 'New York',
                   fees: 0.56789e5,
-                  busy_slots: ['07:30 1'],
-                  start_time: '06:30',
-                  end_time: '10:30'
                 },
                 {
                   name: "Dr. Yamma",
-                  address: "Celebrium, Human Brain",
+                  address: "Celebrium",
                   image_url: "doctor2_image.png",
+                  city: 'Human Brain',
                   fees: 0.23e2
                 },
                 {
                   name: "Dr. Octopus",
-                  address: "Water Colony, Red Sea",
+                  address: "Water Colony",
                   image_url: "doctor3_image.png",
+                  city: 'Red Sea',
                   fees: 0.345e3,
                 },
                 {
                   name: "Dr. Yatharth",
-                  address: "Ghumnam Sahar, Malabar Island",
+                  address: "Ghumnam Sahar",
                   image_url: "doctor4_image.png",
                   fees: 0.345e3,
+                  city: 'Malabar Island',
+                  available: false
                 }
               ]
 )

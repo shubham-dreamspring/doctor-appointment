@@ -46,6 +46,7 @@ class DoctorAvailableSlotService
   end
 
   def available_slots_on_a_date_in_future(date)
+    return [] if date.sunday? && @doctor.is_sunday_off?
     gen_time_slots = general_day_time_slots
     appointment_booked_array = upcoming_appointment_dates
     time_slots_for_day = []

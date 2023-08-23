@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_02_102705) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_23_055814) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -33,10 +33,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_02_102705) do
     t.string "image_url"
     t.decimal "fees"
     t.string "busy_slots", default: ["07:30 1"], array: true
-    t.time "start_time", default: "2000-01-01 06:30:00"
+    t.time "start_time", default: "2000-01-01 04:30:00"
     t.time "end_time", default: "2000-01-01 10:30:00"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "available", default: true
+    t.string "city"
   end
 
   create_table "users", force: :cascade do |t|

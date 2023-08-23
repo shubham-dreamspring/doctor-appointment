@@ -6,6 +6,10 @@ class Doctor < ApplicationRecord
   validates :name, :fees, :image_url, presence: true
   validates :fees, numericality: { greater_than_or_equal_to: 0.01 }
 
+  def is_sunday_off?
+    true
+  end
+
   def next_available_slot
     DoctorAvailableSlotService.new(self).next_available_slot
   end

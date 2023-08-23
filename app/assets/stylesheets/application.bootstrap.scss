@@ -22,6 +22,10 @@ nav {
   box-shadow: 0 4px 6px rgba(65, 52, 146, 0.06), 0 4px 12px rgba(65, 52, 146, 0.12);
 }
 
+.disabled-link {
+  pointer-events: none;
+}
+
 .doctor-card {
   width: 20rem;
   height: 9rem;

@@ -6,21 +6,28 @@
       </div>
       <div class="col w-100">
         <strong class="d-block"><%= doctor.name %></strong>
-        <address class="d-block text-secondary m-0"><%= doctor.address %></address>
+        <address class="d-block text-secondary m-0"><%= doctor.address %>
+          <% if doctor.city %>
+            <%= " ,#{doctor.city}" %>
+          <% end %>
+        </address>
       </div>
     </div>
     <div class="row mt-2 align-items-center">
       <div class="col-7 pe-0" id="doctor-next-slot-div">
-        <span class="text-success"><%= t('next_available') %> -  </span>
-        <% if !doctor.next_available_slot %>
-          <span class="text-secondary"><%= t('no_time_slot_available_today') %></span>
+        <% if doctor.available %>
+          <span class="text-success"><%= t('next_available') %> -  </span>
+          <% if !doctor.next_available_slot %>
+            <span class="text-secondary"><%= t('no_time_slot_available_today') %></span>
+          <% else %>
+            <span class="text-secondary"><%= doctor.next_available_slot.strftime('%I:%M %p') %></span>
+          <% end %>
         <% else %>
-          <span class="text-secondary"><%= doctor.next_available_slot.strftime('%I:%M %p') %></span>
+          <span class="badge rounded-pill text-bg-danger fs-6">Not Available</span>
         <% end %>
-
       </div>
       <div class="col-5 p-0">
-        <%= link_to 'Book Visit', new_appointment_url(:doctor_id => doctor.id), class: 'btn btn-primary', id: 'doctor-book-visit-btn' %>
+        <%= link_to 'Book Visit', new_appointment_url(:doctor_id => doctor.id), class: "btn #{doctor.available ? 'btn-primary' : 'btn-secondary disabled-link'}", id: 'doctor-book-visit-btn' %>
       </div>
     </div>
   </div>

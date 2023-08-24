@@ -1,4 +1,4 @@
-<%= turbo_stream_from(:appointment_created) %>
+<%= turbo_stream_from("Appointment - #{@tracking_id}") %>
 <div class="page2-wrapper d-none justify-content-center align-items-md-center" data-appointment-target="page2" id='appointment_user_form'>
   <aside class="page2">
     <h4 class="text-center"><%= t('add_details')%> 🧑🏻</h4>
@@ -11,6 +11,7 @@
                          oninvalid: "this.setCustomValidity('Please enter an valid email')",
                          onchange: "this.setCustomValidity('')"
     %>
+    <%=form.hidden_field :tracking_id, value: @tracking_id %>
     <label class="form-label mb-3"><%= t('select_currency') %></label>
     <div class="grid mb-4">
       <% @allowed_currencies.each do |cur| %>

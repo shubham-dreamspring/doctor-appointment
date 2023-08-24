@@ -36,6 +36,7 @@ class AppointmentsController < ApplicationController
   def new
     @appointment = Appointment.new(doctor_id: params[:doctor_id])
     @time_slots = DoctorAvailableSlotService.new(@appointment.doctor).all_available_slots
+    @tracking_id = SecureRandom.random_number(10000000)
   end
 
   # POST /appointments or /appointments.json
@@ -47,13 +48,14 @@ class AppointmentsController < ApplicationController
       return
     end
     login @user.id
+    @tracking_id = params['appointment']['tracking_id']
     @appointment = Appointment.new(appointment_params)
 
     respond_to do |format|
       if @appointment.save
         AppointmentMailer.with(appointment_id: @appointment.id).send_invoice.deliver_later(wait_until: 2.hour.from_now)
         format.turbo_stream do
-          FakePaymentServiceJob.set(wait: 1.second).perform_later(@appointment)
+          FakePaymentServiceJob.set(wait: 1.second).perform_later(@appointment, @tracking_id)
         end
 
       else
@@ -72,6 +74,7 @@ class AppointmentsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def appointment_params
+    params['appointment'].delete('tracking_id')
     params['appointment']['start_timestamp'] = Time.at(Integer(params['appointment']['start_timestamp'].to_s)).utc
     params['appointment']['end_timestamp'] = params['appointment']['start_timestamp'] + 1.hour
     params['appointment']['user_id'] = @user.id

@@ -24,7 +24,7 @@ const counter = (end_date, elems) => {
         elems[7].innerText = seconds % 10;
 
         // If the count down is over, write some text
-        if (distance < 0) {
+        if (distance <= 0) {
             clearInterval(x);
         }
     }, 1000);

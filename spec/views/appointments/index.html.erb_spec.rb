@@ -21,8 +21,8 @@ RSpec.describe "appointments/index", type: :view do
       Appointment.create!(
         doctor_id: dummy_doctor.id,
         user_id: dummy_user.id,
-        start_timestamp: Date.new,
-        end_timestamp: Date.new + 1.day,
+        start_timestamp: Date.new + 1.day,
+        end_timestamp: Date.new + 2.day,
         amount: 23
       )
     ])

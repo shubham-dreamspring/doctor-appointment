@@ -20,7 +20,7 @@ RSpec.describe AppointmentsController, type: :controller do
      {
        doctor_id: doctors(:unavailable_doctor).id,
        user_id: users(:one).id,
-       end_timestamp: Time.current,
+       end_timestamp: Time.current ,
        start_timestamp: Time.current,
        currency: 'INR',
        amount: 50

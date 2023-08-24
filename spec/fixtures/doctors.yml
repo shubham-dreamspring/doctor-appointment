@@ -23,3 +23,9 @@ unavailable_doctor:
   image_url: doctor1_image.png
   fees: 12
   available: false
+three:
+  id: 16
+  name: Dr. test6
+  address: Stanford University
+  image_url: doctor1_image.png
+  fees: 12
